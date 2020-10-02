@@ -38,6 +38,12 @@ public class ArregloDinamico<T extends Comparable <T>> implements IArregloDinami
 		tamanoAct = 0;
 	}
 
+	public ArregloDinamico() {
+		elementos=(T[]) new Comparable[10];
+		tamanoMax = 10;
+		tamanoAct = 0;
+	}
+
 	public int darCapacidad() {
 		return tamanoMax;
 	}
