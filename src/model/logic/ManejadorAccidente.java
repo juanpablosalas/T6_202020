@@ -68,9 +68,14 @@ public class ManejadorAccidente
 		return info;
 	}
 	
-	public String requerimiento1(String fecha) {
+	public String requerimiento1(String fecha) throws Exception {
 		ArregloDinamico<Accidente> accFecha = arbolAccidentes.get(fecha);
 		int total = accFecha.size();
+		
+		if(total==0) {
+			throw new Exception("No se encontró la fecha");
+		}
+		
 		Accidente[] ordenado = accFecha.toArray();
 		ShellSort.sort(ordenado);
 		

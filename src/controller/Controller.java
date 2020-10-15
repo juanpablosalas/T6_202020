@@ -9,7 +9,7 @@ public class Controller {
 
 	/* Instancia de la Vista*/
 	private View view;
-	
+
 	/* Instancia del Model*/
 	private ManejadorAccidente modelo;
 
@@ -51,11 +51,19 @@ public class Controller {
 					view.printMessage("------------------- \n Error en la carga de datos: \n-------------------");
 					e.printStackTrace();
 				}
-				
+
 				break;
 			case 1: //Requerimiento 1
 				if(datosCargados) {
-					
+					view.printMessage("------------------- \n Ingrese la fecha: \n-------------------");
+					dato = lector.next();
+					try {
+						respuesta = modelo.requerimiento1(dato);
+					} catch (Exception e) {
+						respuesta = e.getMessage();			
+						e.printStackTrace();
+					}
+					view.printMessage(respuesta);
 				}else {
 					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
 				}
