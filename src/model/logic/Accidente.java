@@ -13,9 +13,12 @@ public class Accidente implements Comparable<Accidente>
 	private String horaInicio;
 
 	private String horaFinal;
+	
+	private String id;
 
-	public Accidente (String pFechaInicio, String pFechaFinal, String pCounty, int pGravedad, String pHoraInicial, String pHoraFinal)
+	public Accidente (String pId, String pFechaInicio, String pFechaFinal, String pCounty, int pGravedad, String pHoraInicial, String pHoraFinal)
 	{
+		id = pId;
 		fechaInicio = pFechaInicio;
 		fechaFinal = pFechaFinal;
 		county = pCounty;
@@ -65,6 +68,11 @@ public class Accidente implements Comparable<Accidente>
 		return comp;
 	}
 
+	
+	@Override
+	public String toString() {
+		return "ID: "+id+" Gravedad: "+gravedad;
+	}
 
 
 }

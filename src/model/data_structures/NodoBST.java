@@ -30,6 +30,18 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 	public int size() {
 		return size;
 	}
+	
+	public int valuesSize() {
+		int valueSize = values.size();
+		if(left!=null) {
+			valueSize+=left.valuesSize();
+		}
+		if(right!=null) {
+			valueSize+=right.valuesSize();
+		}
+		
+		return valueSize;
+	}
 
 	public void setLeft(NodoBST<K,V> pLeft){
 		size += pLeft.size();

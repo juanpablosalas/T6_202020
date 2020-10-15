@@ -21,6 +21,14 @@ public class BST<K extends Comparable<K>,V extends Comparable<V>> implements Tab
 		}
 		return size;
 	}
+	
+	public int valuesSize() {
+		int valueSize = 0;
+		if(root!=null) {
+			valueSize = root.valuesSize();
+		}
+		return valueSize;
+	}
 
 
 	@Override
