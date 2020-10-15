@@ -1,22 +1,24 @@
 package model.logic;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.exceptions.CsvValidationException;
+
+import model.data_structures.BST;
 
 public class ManejadorAccidente 
 {
 	public static final String datosAccidentes = "data/us_accidents_small.csv";
 	
+	private BST<String, String> arbolAccidentes;
+	
 	public ManejadorAccidente()
 	{
 		
+		arbolAccidentes = new BST<String,String>();
 	}
 	
 	public void leerArchivo() throws Exception
