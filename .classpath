@@ -9,5 +9,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.11.jar"/>
 	<classpathentry kind="lib" path="lib/opencsv-5.2 (1).jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

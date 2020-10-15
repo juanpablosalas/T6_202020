@@ -97,12 +97,12 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 			return nodo;
 		}
 
-		return nodo.min(nodo.getRight());
+		return nodo.max(nodo.getRight());
 	}
 
 	public int height() {
-		int heightLeft = 0;
-		int heightRight = 0;
+		int heightLeft = 1;
+		int heightRight = 1;
 		if(left!=null) {
 			heightLeft = 1;
 			heightLeft += left.height();
@@ -144,7 +144,7 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 			keyset.addLast(this.key());
 		}
 
-		if(right!=null && left.key().compareTo(kInit)>0 && left.key().compareTo(kFin)<0 ) {
+		if(right!=null && right.key().compareTo(kInit)>0 && right.key().compareTo(kFin)<0 ) {
 			ArregloDinamico<K> keysetright = (ArregloDinamico<K>) right.keysInRange(kInit,kFin);
 			for(int i=1; i<keysetright.size()+1; i++) {
 				keyset.addLast(keysetright.getElement(i));

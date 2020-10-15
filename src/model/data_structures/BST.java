@@ -35,8 +35,11 @@ public class BST<K extends Comparable<K>,V extends Comparable<V>> implements Tab
 
 	@Override
 	public int getHeight(K key) {
-		//TODO
-		return 0;
+		int height = 0;
+		if(root!=null) {
+			height = root.getHeight(key);
+		}
+		return height;
 	}
 
 	@Override
@@ -56,11 +59,12 @@ public class BST<K extends Comparable<K>,V extends Comparable<V>> implements Tab
 
 	@Override
 	public int height() {
-		if(root==null) {
-			return 0;
+		int height = 0;
+		if(root!=null) {
+			height = root.height();
 
 		}
-		return root.height();
+		return height;
 	}
 
 	@Override
