@@ -4,7 +4,7 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 
 	private K key;
 
-	private V value;
+	private ArregloDinamico<V> values;
 
 	private NodoBST<K,V> left;
 
@@ -14,7 +14,8 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 
 	public NodoBST(K key, V value, int size) {
 		this.key = key;
-		this.value = value;
+		values = new ArregloDinamico<V>();
+		values.addLast(value);
 		this.size = size;
 	}
 
@@ -22,8 +23,8 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 		return key;
 	}
 
-	public V value() {
-		return value;
+	public ArregloDinamico<V> values() {
+		return values;
 	}
 
 	public int size() {
@@ -48,8 +49,8 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 		return right;
 	}
 
-	public V get(K pKey) {
-		V valor = null;
+	public ArregloDinamico<V> get(K pKey) {
+		ArregloDinamico<V> valor = null;
 		int cmp = pKey.compareTo(key);
 
 		if(cmp<0) {
@@ -57,7 +58,7 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 		}else if(cmp>0) {
 			valor = right.get(pKey);
 		}else if(cmp==0) {
-			valor = value;
+			valor = values;
 		}
 		return valor;
 	}
@@ -80,7 +81,7 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 			}
 			size++;
 		}else {
-			this.value =pValue;
+			values.addLast(pValue);
 		}
 	}
 
@@ -162,7 +163,9 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 			}
 		}
 		if(key.compareTo(kInit)>0 && key.compareTo(kFin)<0) {
-			valueSet.addLast(this.value());
+			for(int i=1; i<=values.size(); i++) {
+				valueSet.addLast(values.getElement(i));
+			}
 		}
 
 		if(right!=null && left.key().compareTo(kInit)>0 && left.key().compareTo(kFin)<0 ) {
@@ -191,7 +194,7 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 	}
 
 	public String toString(int start) {
-		String respuesta = "("+key.toString()+","+value.toString()+")";
+		String respuesta = "("+key.toString()+","+values.toString()+")";
 		int length = respuesta.length()/2;
 
 		String spaces = "";

@@ -29,7 +29,7 @@ public class BST<K extends Comparable<K>,V extends Comparable<V>> implements Tab
 	}
 
 	@Override
-	public V get(K key) {		
+	public ArregloDinamico<V> get(K key) {		
 		return root.get(key);
 	}
 

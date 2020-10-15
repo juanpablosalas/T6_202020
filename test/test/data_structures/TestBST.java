@@ -49,7 +49,7 @@ public class TestBST {
 	@Test
 	public void testGet() {
 		setUp1();
-		String prueba;
+		ArregloDinamico<String> prueba;
 		try {
 			prueba = binaryTree.get(3);
 			fail("El árbol está vacío, no debería ser posible obtener un valor");
@@ -65,7 +65,7 @@ public class TestBST {
 
 		}
 		prueba = binaryTree.get(2);
-		assertEquals("La respuesta debería ser dos", prueba, "Dos");
+		assertTrue("La respuesta debería ser dos", prueba.isPresent("Dos")!=-1);
 	}
 	
 	

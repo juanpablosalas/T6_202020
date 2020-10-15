@@ -229,14 +229,14 @@ public class ArregloDinamico<T extends Comparable <T>> implements IArregloDinami
 
 
 	public String toString() {
-		String rta = "";
+		String rta = "{";
 		for(int i=0; i<tamanoAct; i++) {
 
-			rta += elementos[i].toString() + '\n';
+			rta += elementos[i].toString() + ',';
 
 
 		}
-		return rta;
+		return rta+"}";
 	}
 
 	public T[] toArray() {

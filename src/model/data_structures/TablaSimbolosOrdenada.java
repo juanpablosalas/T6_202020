@@ -7,7 +7,7 @@ public interface TablaSimbolosOrdenada<K extends Comparable<K>,V extends Compara
 
 	public boolean isEmpty();
 
-	public V get(K key);
+	public ArregloDinamico<V> get(K key);
 
 	public int getHeight(K key) ;
 
