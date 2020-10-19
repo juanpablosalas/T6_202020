@@ -9,6 +9,7 @@ import com.opencsv.CSVReaderBuilder;
 
 import model.data_structures.ArregloDinamico;
 import model.data_structures.BST;
+import model.data_structures.RBT;
 import model.data_structures.ShellSort;
 
 public class ManejadorAccidente 
@@ -16,6 +17,8 @@ public class ManejadorAccidente
 	public static final String datosAccidentes = "data/us_accidents_small.csv";
 
 	private BST<String, Accidente> arbolAccidentes;
+	
+	private RBT<String, Accidente> RBTAccidentes;
 
 	public ManejadorAccidente()
 	{
@@ -47,8 +50,10 @@ public class ManejadorAccidente
 
 				if(anoInicio==ano) {
 					Accidente nuevo = new Accidente(id, fechaInicio, fechaFinal, county, gravedad, horaInicio, horaFinal);
+					ArregloDinamico<Accidente> valores = new ArregloDinamico<Accidente>();
+					valores.addLast(nuevo);
 					arbolAccidentes.put(fechaInicio, nuevo);
-
+					RBTAccidentes.put(fechaInicio, valores);
 				}
 
 			}

@@ -1,5 +1,7 @@
 package model.data_structures;
 
+import java.util.NoSuchElementException;
+
 public class RBT<K extends Comparable<K>, V extends Comparable<V>>
 {
 	
@@ -232,5 +234,35 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>>
         return 1 + Math.max(height(pNodo.izquierdo), height(pNodo.derecho));
     }
 	
+    public void deleteMin() {
+        if (isEmpty()) throw new NoSuchElementException("BST underflow");
+        if (!esRojo(root.izquierdo) && !esRojo(root.derecho))
+            root.color = RED;
+
+        root = deleteMin(root);
+        if (!isEmpty()) root.color = BLACK;
+    }
+
+    private Nodo deleteMin(Nodo h) { 
+        if (h.izquierdo == null)
+            return null;
+
+        if (!esRojo(h.izquierdo) && !esRojo(h.izquierdo.izquierdo))
+            h = moveRedLeft(h);
+
+        h.izquierdo = deleteMin(h.izquierdo);
+        return balance(h);
+    }
+    
+    public K min() {
+        if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
+        return min(root).key;
+    } 
+
+    private Nodo min(Nodo x) { 
+        // assert x != null;
+        if (x.izquierdo == null) return x; 
+        else                return min(x.izquierdo); 
+    } 
 
 }
