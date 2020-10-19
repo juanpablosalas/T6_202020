@@ -36,111 +36,6 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>>
 		
 	}
 	
-	public RBT()
-	{
-		
-	}
-	
-	private int size(Nodo pNodo) 
-	{
-		if(pNodo == null) 
-		{
-			return 0;
-		}
-		return pNodo.numeroNodos;
-	}
-	
-	public int size() {
-		return size(root);
-	}
-	
-	private boolean esRojo(Nodo pNodo)
-	{
-		if (pNodo == null)
-		{
-			return false;
-		}
-		return pNodo.color == RED;
-	}
-	
-	public boolean isEmpty() 
-	{
-		return root == null;
-	}
-	
-	private ArregloDinamico<V> get(Nodo pNodo, K key) {
-        while (pNodo != null) {
-            int cmp = key.compareTo(pNodo.key);
-            if      (cmp < 0) 
-            	{
-            		pNodo = pNodo.izquierdo;
-            	}
-            else if (cmp > 0) 
-            	{
-            		pNodo = pNodo.derecho;
-            	}
-            else      
-            	{
-            		return pNodo.value;
-            	}
-        }
-        return null;
-    }
-
-	public ArregloDinamico<V> get(K key) {
-        if (key == null) 
-        	{
-        		throw new IllegalArgumentException("La llave no puede ser nula");
-        	}
-        return get(root, key);
-    }
-
-	public boolean contains(K key) 
-	{
-		return get(key)!=null;
-	}
-	
-	private Nodo put(Nodo pNodo, K key, ArregloDinamico<V> val) { 
-        if (pNodo == null) return new Nodo(key, val, 1, RED);
-
-        int cmp = key.compareTo(pNodo.key);
-        if      (cmp < 0) pNodo.izquierdo  = put(pNodo.izquierdo,  key, val); 
-        else if (cmp > 0) pNodo.derecho = put(pNodo.derecho, key, val); 
-        else              pNodo.value   = val;
-
-        if (esRojo(pNodo.derecho) && !esRojo(pNodo.izquierdo))      pNodo = rotateLeft(pNodo);
-        if (esRojo(pNodo.izquierdo)  &&  esRojo(pNodo.izquierdo.izquierdo)) pNodo = rotateRight(pNodo);
-        if (esRojo(pNodo.izquierdo)  &&  esRojo(pNodo.derecho))     flipColors(pNodo);
-        pNodo.numeroNodos = size(pNodo.izquierdo) + size(pNodo.derecho) + 1;
-
-        return pNodo;
-    }
-	public void put(K key, ArregloDinamico<V> value)
-	{
-		if (key == null)
-		{
-			throw new IllegalArgumentException("La llave no puede ser nula");
-		}
-		if (value == null)
-		{
-			delete(key);
-			return;
-		}
-		root = put(root, key, value);
-		root.color = BLACK;
-	}
-	
-	public void delete(K key) { 
-        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
-        if (!contains(key)) return;
-
-        if (!esRojo(root.izquierdo) && !esRojo(root.derecho))
-            root.color = RED;
-
-        root = delete(root, key);
-        if (!isEmpty()) root.color = BLACK;
-    }
-	
 	private Nodo delete(Nodo pNodo, K key) { 
 
         if (key.compareTo(pNodo.key) < 0)  {
@@ -225,13 +120,137 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>>
         return pNodo;
     }
 	
-	public int height() {
-        return height(root);
+	private int size(Nodo pNodo) 
+	{
+		if(pNodo == null) 
+		{
+			return 0;
+		}
+		return pNodo.numeroNodos;
+	}
+	
+	private boolean esRojo(Nodo pNodo)
+	{
+		if (pNodo == null)
+		{
+			return false;
+		}
+		return pNodo.color == RED;
+	}
+	
+	private ArregloDinamico<V> get(Nodo pNodo, K key) {
+        while (pNodo != null) {
+            int cmp = key.compareTo(pNodo.key);
+            if      (cmp < 0) 
+            	{
+            		pNodo = pNodo.izquierdo;
+            	}
+            else if (cmp > 0) 
+            	{
+            		pNodo = pNodo.derecho;
+            	}
+            else      
+            	{
+            		return pNodo.value;
+            	}
+        }
+        return null;
     }
 	
-    private int height(Nodo pNodo) {
+	private Nodo put(Nodo pNodo, K key, ArregloDinamico<V> val) { 
+        if (pNodo == null) return new Nodo(key, val, 1, RED);
+
+        int cmp = key.compareTo(pNodo.key);
+        if      (cmp < 0) pNodo.izquierdo  = put(pNodo.izquierdo,  key, val); 
+        else if (cmp > 0) pNodo.derecho = put(pNodo.derecho, key, val); 
+        else              pNodo.value   = val;
+
+        if (esRojo(pNodo.derecho) && !esRojo(pNodo.izquierdo))      pNodo = rotateLeft(pNodo);
+        if (esRojo(pNodo.izquierdo)  &&  esRojo(pNodo.izquierdo.izquierdo)) pNodo = rotateRight(pNodo);
+        if (esRojo(pNodo.izquierdo)  &&  esRojo(pNodo.derecho))     flipColors(pNodo);
+        pNodo.numeroNodos = size(pNodo.izquierdo) + size(pNodo.derecho) + 1;
+
+        return pNodo;
+    }
+	
+	private int height(Nodo pNodo) {
         if (pNodo == null) return -1;
         return 1 + Math.max(height(pNodo.izquierdo), height(pNodo.derecho));
+    }
+	
+	private Nodo deleteMin(Nodo h) { 
+        if (h.izquierdo == null)
+            return null;
+
+        if (!esRojo(h.izquierdo) && !esRojo(h.izquierdo.izquierdo))
+            h = moveRedLeft(h);
+
+        h.izquierdo = deleteMin(h.izquierdo);
+        return balance(h);
+    }
+	
+	private Nodo min(Nodo x) { 
+        if (x.izquierdo == null) return x; 
+        else                return min(x.izquierdo); 
+    } 
+	
+	public RBT()
+	{
+		
+	}
+	
+	
+	public int size() {
+		return size(root);
+	}
+	
+	public boolean isEmpty() 
+	{
+		return root == null;
+	}
+
+	public ArregloDinamico<V> get(K key) {
+        if (key == null) 
+        	{
+        		throw new IllegalArgumentException("La llave no puede ser nula");
+        	}
+        return get(root, key);
+    }
+
+	public boolean contains(K key) 
+	{
+		return get(key)!=null;
+	}
+	
+	
+	public void put(K key, ArregloDinamico<V> value)
+	{
+		if (key == null)
+		{
+			throw new IllegalArgumentException("La llave no puede ser nula");
+		}
+		if (value == null)
+		{
+			delete(key);
+			return;
+		}
+		root = put(root, key, value);
+		root.color = BLACK;
+	}
+	
+	public void delete(K key) { 
+        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+        if (!contains(key)) return;
+
+        if (!esRojo(root.izquierdo) && !esRojo(root.derecho))
+            root.color = RED;
+
+        root = delete(root, key);
+        if (!isEmpty()) root.color = BLACK;
+    }
+	
+	public int height() {
+        return height(root);
     }
 	
     public void deleteMin() {
@@ -242,27 +261,10 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>>
         root = deleteMin(root);
         if (!isEmpty()) root.color = BLACK;
     }
-
-    private Nodo deleteMin(Nodo h) { 
-        if (h.izquierdo == null)
-            return null;
-
-        if (!esRojo(h.izquierdo) && !esRojo(h.izquierdo.izquierdo))
-            h = moveRedLeft(h);
-
-        h.izquierdo = deleteMin(h.izquierdo);
-        return balance(h);
-    }
     
     public K min() {
         if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
         return min(root).key;
-    } 
-
-    private Nodo min(Nodo x) { 
-        // assert x != null;
-        if (x.izquierdo == null) return x; 
-        else                return min(x.izquierdo); 
     } 
 
 }
