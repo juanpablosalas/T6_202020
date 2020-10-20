@@ -50,10 +50,8 @@ public class ManejadorAccidente
 
 				if(anoInicio==ano) {
 					Accidente nuevo = new Accidente(id, fechaInicio, fechaFinal, county, gravedad, horaInicio, horaFinal);
-					ArregloDinamico<Accidente> valores = new ArregloDinamico<Accidente>();
-					valores.addLast(nuevo);
 					arbolAccidentes.put(fechaInicio, nuevo);
-					RBTAccidentes.put(fechaInicio, valores);
+					RBTAccidentes.put(fechaInicio, nuevo);
 				}
 
 			}

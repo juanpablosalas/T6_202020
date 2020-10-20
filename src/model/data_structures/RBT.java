@@ -25,10 +25,11 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>>
 		
 		boolean color;
 		
-		Nodo(K pKey, ArregloDinamico<V> pValue, int N, boolean pColor)
+		Nodo(K pKey, V pValue, int N, boolean pColor)
 		{
 			this.key = pKey;
 			this.value = new ArregloDinamico<V>();
+			value.addLast(pValue);
 			this.numeroNodos = N;
 			this.color = pColor;
 		}
@@ -157,13 +158,13 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>>
         return null;
     }
 	
-	private Nodo put(Nodo pNodo, K key, ArregloDinamico<V> val) { 
+	private Nodo put(Nodo pNodo, K key, V val) { 
         if (pNodo == null) return new Nodo(key, val, 1, RED);
 
         int cmp = key.compareTo(pNodo.key);
         if      (cmp < 0) pNodo.izquierdo  = put(pNodo.izquierdo,  key, val); 
         else if (cmp > 0) pNodo.derecho = put(pNodo.derecho, key, val); 
-        else              pNodo.value   = val;
+        else              pNodo.value.addLast(val); ;
 
         if (esRojo(pNodo.derecho) && !esRojo(pNodo.izquierdo))      pNodo = rotateLeft(pNodo);
         if (esRojo(pNodo.izquierdo)  &&  esRojo(pNodo.izquierdo.izquierdo)) pNodo = rotateRight(pNodo);
@@ -223,7 +224,7 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>>
 	}
 	
 	
-	public void put(K key, ArregloDinamico<V> value)
+	public void put(K key, V value)
 	{
 		if (key == null)
 		{
