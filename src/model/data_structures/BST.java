@@ -10,7 +10,7 @@ public class BST<K extends Comparable<K>,V extends Comparable<V>> implements Tab
 	}
 
 	public BST(K llaveRaiz, V valorRaiz) {
-		root = new NodoBST<K, V>(llaveRaiz, valorRaiz, 1);
+		root = new NodoBST<K, V>(llaveRaiz, valorRaiz, 1, true);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class BST<K extends Comparable<K>,V extends Comparable<V>> implements Tab
 	@Override
 	public void put(K key, V value) {
 		if(root==null) {
-			root = new NodoBST<K, V>(key, value, 1);
+			root = new NodoBST<K, V>(key, value, 1, true);
 		}else {
 			root.put(key, value);	
 		}
