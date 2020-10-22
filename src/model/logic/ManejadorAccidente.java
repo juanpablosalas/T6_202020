@@ -71,21 +71,83 @@ public class ManejadorAccidente
 		return info;
 	}
 	
-	public String requerimiento1(String fecha) throws Exception {
-		ArregloDinamico<Accidente> accFecha = arbolAccidentes.get(fecha);
-		int total = accFecha.size();
+	
+	public String buscarAccidenteBST(String fecha) throws Exception{
+	
 		
-		if(total==0) {
-			throw new Exception("No se encontr√≥ la fecha");
+		int total = 0;
+		int grav0 = 0;
+		int grav1 = 0;
+		int grav2 = 0;
+		int grav3 = 0;
+		
+		long TInicio = System.currentTimeMillis();
+		ArregloDinamico<Accidente> accFecha = arbolAccidentes.get(fecha);
+		long TFin = System.currentTimeMillis();
+		total = accFecha.size();
+		long tiempo = TFin - TInicio;
+		
+		if(total == 0) {
+			throw new Exception("No se encontro la fecha");
+		}
+		Accidente[] ordenado = accFecha.toArray();
+		ShellSort.sort(ordenado);
+		
+		
+		for(int i = 0; i < ordenado.length; i++) {
+			if(ordenado[i].darGravedad() == 0) {
+				grav0++;
+			} 
+			else if (ordenado[i].darGravedad() == 1) {
+				grav1++;
+			}
+			else if (ordenado[i].darGravedad() == 2) {
+				grav2++;
+			}
+			else if (ordenado[i].darGravedad() == 3) {
+				grav3++;
+			}
+		}
+		return "Total de accidentes: " + total + "\n Accidentes con gravedad 0: " + grav0+ " \n Accidentes con gravedad 1: " + grav1 + "\n Accidentes con gravedad 2: " + grav2 + "\n Accidentes con gravedad 3: " + grav3 + "\n Tiempo de ejecuciÛn: " + tiempo;
+	}
+	
+	public String buscarAccidenteRBT(String fecha) throws Exception{
+	
+		
+		int total = 0;
+		int grav0 = 0;
+		int grav1 = 0;
+		int grav2 = 0;
+		int grav3 = 0;
+		
+		long TInicio = System.currentTimeMillis();
+		ArregloDinamico<Accidente> accFecha = RBTAccidentes.get(fecha);
+		long TFin = System.currentTimeMillis();
+		total = accFecha.size();
+		long tiempo = TFin - TInicio;
+		
+		if(total == 0) {
+			throw new Exception("No se encontro la fecha");
 		}
 		
 		Accidente[] ordenado = accFecha.toArray();
 		ShellSort.sort(ordenado);
 		
-		String rta = "Total: "+total + "\n Accidentes: ";
-		for(int i=0; i<ordenado.length; i++) {
-			rta += ordenado[i].toString();
+		
+		for(int i = 0; i < ordenado.length; i++) {
+			if(ordenado[i].darGravedad() == 0) {
+				grav0++;
+			} 
+			else if (ordenado[i].darGravedad() == 1) {
+				grav1++;
+			}
+			else if (ordenado[i].darGravedad() == 2) {
+				grav2++;
+			}
+			else if (ordenado[i].darGravedad() == 3) {
+				grav3++;
+			}
 		}
-		return "T";
+		return "Total de accidentes: " + total + "\n Accidentes con gravedad 0: " + grav0+ " \n Accidentes con gravedad 1: " + grav1 + "\n Accidentes con gravedad 2: " + grav2 + "\n Accidentes con gravedad 3: " + grav3 + "\n Tiempo de ejecuciÛn: " + tiempo;
 	}
 }

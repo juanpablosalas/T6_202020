@@ -31,6 +31,7 @@ public class Controller {
 		boolean datosCargados = false;
 		String dato = "";
 		String respuesta = "";
+		String respuesta2 = "";
 
 
 		while( !fin ){
@@ -58,7 +59,7 @@ public class Controller {
 					view.printMessage("------------------- \n Ingrese la fecha: \n-------------------");
 					dato = lector.next();
 					try {
-						respuesta = modelo.requerimiento1(dato);
+						respuesta = modelo.buscarAccidenteBST(dato) + modelo.buscarAccidenteRBT(dato);
 					} catch (Exception e) {
 						respuesta = e.getMessage();			
 						e.printStackTrace();
