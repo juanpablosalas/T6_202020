@@ -12,7 +12,7 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
 	private static final boolean BLACK = false;
 
 	
-	private NodoBST<K,V> root;
+	private nodoRBT<K,V> root;
 	
 	public RBT()
 	{
@@ -20,7 +20,7 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
 	}
 	
 	public RBT(K llaveRaiz, V valorRaiz) {
-		root = new NodoBST<K, V>(llaveRaiz, valorRaiz, 1, RED);
+		root = new nodoRBT<K, V>(llaveRaiz, valorRaiz, 1, RED);
 	}
 	
 	public int size() {
