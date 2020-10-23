@@ -10,21 +10,16 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 	private NodoBST<K,V> left;
 
 	private NodoBST<K,V> right;
-	
-	private static final boolean RED = true;
-	
-	private static final boolean BLACK = false;
 
 	private int size;
 	
 	private boolean color;
 
-	public NodoBST(K key, V value, int size, boolean pColor) {
+	public NodoBST(K key, V value, int size) {
 		this.key = key;
 		values = new ArregloDinamico<V>();
 		values.addLast(value);
 		this.size = size;
-		color = pColor;
 	}
 
 	public K key() {
@@ -88,14 +83,14 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 		int cmp = pKey.compareTo(key);
 		if(cmp<0) {
 			if(left==null) {
-				left = new NodoBST<K,V>(pKey,pValue,1, RED);
+				left = new NodoBST<K,V>(pKey,pValue,1);
 			}else {
 				left.put(pKey, pValue);
 			}
 			size++;
 		}else if(cmp>0) {
 			if(right==null) {
-				right = new NodoBST<K,V>(pKey,pValue,1, RED);
+				right = new NodoBST<K,V>(pKey,pValue,1);
 			}else {
 				right.put(pKey, pValue);
 			}
@@ -231,139 +226,4 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 
 		return respuesta;
 	}
-	
-	public NodoBST<K,V> delete(NodoBST<K,V> pNodo, K key) { 
-
-        if (pNodo.key.compareTo(key) < 0)  {
-            if (!esRojo(pNodo.left) && !esRojo(pNodo.left.left))
-                pNodo = moveRedLeft(pNodo);
-            pNodo.left = delete(pNodo.left, key);
-        }
-        else {
-            if (esRojo(pNodo.left))
-                pNodo = rotateRight(pNodo);
-            if (key.compareTo(pNodo.key) == 0 && (pNodo.right == null))
-                return null;
-            if (!esRojo(pNodo.right) && !esRojo(pNodo.right.left))
-                pNodo = moveRedRight(pNodo);
-            if (key.compareTo(pNodo.key) == 0) {
-                NodoBST<K,V> x = min(pNodo.right);
-                pNodo.key = x.key;
-                pNodo.values = x.values;
-                pNodo.right = deleteMin(pNodo.right);
-            }
-            else pNodo.right = delete(pNodo.right, key);
-        }
-        return balance(pNodo);
-    }
-
-	public NodoBST<K,V> rotateRight(NodoBST<K,V> pNodo) 
-	{
-        NodoBST<K,V> x = pNodo.left;
-        pNodo.left = x.right;
-        x.right = pNodo;
-        x.color = x.right.color;
-        x.right.color = RED;
-        x.size = pNodo.size;
-        pNodo.size = getSize(pNodo.left) + getSize(pNodo.right) + 1;
-        return x;
-    }
-	
-	public int getSize(NodoBST<K,V> pNodo) 
-	{
-		if(pNodo == null) 
-		{
-			return 0;
-		}
-		return pNodo.size;
-	}
-	
-	public NodoBST<K,V> rotateLeft(NodoBST<K,V> pNodo) 
-	{
-        NodoBST<K,V> x = pNodo.right;
-        pNodo.right = x.left;
-        x.left = pNodo;
-        x.color = x.left.color;
-        x.left.color = RED;
-        x.size = pNodo.size;
-        pNodo.size = getSize(pNodo.left) + getSize(pNodo.right) + 1;
-        return x;
-    }
-	
-	public boolean esRojo(NodoBST<K,V> pNodo)
-	{
-		if (pNodo == null)
-		{
-			return false;
-		}
-		return pNodo.color == RED;
-	}
-	
-	public NodoBST<K,V> putNodoRBT(NodoBST<K,V> pNodo, K key, V val) { 
-        if (pNodo == null) return new NodoBST<K,V>(key, val, 1, RED);
-
-        int cmp = key.compareTo(pNodo.key);
-        if      (cmp < 0) pNodo.left  = putNodoRBT(pNodo.left,  key, val); 
-        else if (cmp > 0) pNodo.right = putNodoRBT(pNodo.right, key, val); 
-        else              pNodo.values.addLast(val); ;
-
-        if (esRojo(pNodo.right) && !esRojo(pNodo.left))      pNodo = rotateLeft(pNodo);
-        if (esRojo(pNodo.left)  &&  esRojo(pNodo.left.left)) pNodo = rotateRight(pNodo);
-        if (esRojo(pNodo.left)  &&  esRojo(pNodo.right))     flipColors(pNodo);
-        pNodo.size = getSize(pNodo.left) + getSize(pNodo.right) + 1;
-
-        return pNodo;
-    }
-	
-	public NodoBST<K,V> balance(NodoBST<K,V> pNodo) 
-	{
-        if (esRojo(pNodo.right))                      pNodo = rotateLeft(pNodo);
-        if (esRojo(pNodo.left) && esRojo(pNodo.left.left)) pNodo = rotateRight(pNodo);
-        if (esRojo(pNodo.left) && esRojo(pNodo.right))     flipColors(pNodo);
-
-        pNodo.size = getSize(pNodo.left) + getSize(pNodo.right) + 1;
-        return pNodo;
-    }
-	
-	public NodoBST<K,V> moveRedRight(NodoBST<K,V> h) {
-        flipColors(h);
-        if (esRojo(h.left.left)) { 
-            h = rotateRight(h);
-            flipColors(h);
-        }
-        return h;
-    }
-
-	public NodoBST<K,V> moveRedLeft(NodoBST<K,V> h) {
-        flipColors(h);
-        if (esRojo(h.right.left)) { 
-            h.right = rotateRight(h.right);
-            h = rotateLeft(h);
-            flipColors(h);
-        }
-        return h;
-    }
-	
-	public void flipColors(NodoBST<K,V> pNodo) {
-        pNodo.color = !pNodo.color;
-        pNodo.left.color = !pNodo.left.color;
-        pNodo.right.color = !pNodo.right.color;
-    }
-	
-	public NodoBST<K,V> deleteMin(NodoBST<K,V> h) { 
-        if (h.left == null)
-            return null;
-
-        if (!esRojo(h.left) && !esRojo(h.left.left))
-            h = moveRedLeft(h);
-
-        h.left = deleteMin(h.left);
-        return balance(h);
-    }
-	
-	public void setColor(Boolean pColor)
-	{
-		color = pColor;
-	}
-
 }
