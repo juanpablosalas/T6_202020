@@ -132,14 +132,16 @@ public class TestBST {
 	
 	@Test
 	public void testHeight() {
-		//setUp2();
-		//assertEquals("La altura debería ser 5",binaryTree.height(),5);
-		
+		setUp2();
+		assertEquals("La altura debería ser 5",binaryTree.height(),5);
+	}
+	
+	@Test
+	public void testGetHeight() {
 		setUp2();
 		binaryTree.put(1, "Uno");
 		System.out.println(binaryTree);
-		assertEquals("La altura debería ser 3",3,binaryTree.getHeight(4));
-		
+		assertEquals("La altura debería ser 4",4,binaryTree.getHeight(83));
 	}
 	
 	

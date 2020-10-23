@@ -206,20 +206,15 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 
 	}
 
-	public int getHeight(K pKey) {
-		int height = 0;
-		
-		
-		
-		
-		int cmp = pKey.compareTo(key);
+	public int getHeight(K pkey) {		
+		int height = -1;
+		if(key.equals(pkey)) {
+			height = 1;
+		} else if(left!= null && key.compareTo(pkey)>0) {
+			height = 1+left.getHeight(pkey);
+		} else if(right!= null && key.compareTo(pkey)<0) {
+			height = 1+right.getHeight(pkey);
 
-		if(cmp<0) {
-			height += left.getHeight(pKey);
-		}else if(cmp>0) {
-			height += left.getHeight(pKey);
-		}else if(cmp==0) {
-			height += 1;
 		}
 		return height;
 	}
