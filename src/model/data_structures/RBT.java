@@ -41,7 +41,7 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
         	{
         		throw new IllegalArgumentException("La llave no puede ser nula");
         	}
-        return root.get(pKey);
+        return root.get(root, pKey);
     }
 
 	public boolean contains(K key) 
@@ -89,7 +89,7 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
 		{
 			throw new NoSuchElementException("El arbol esta vacio");
 		}
-        return root.height();
+        return root.height(root);
     }
 	
     public void deleteMin() {
@@ -99,6 +99,16 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
 
         root.deleteMin(root);
         if (!isEmpty()) root.setColor(BLACK);
+    }
+    
+    public void deleteMax() {
+        if (isEmpty()) throw new NoSuchElementException("El arbol esta vacio");
+
+        if (!root.esRojo(root.getLeft()) && !root.esRojo(root.getRight()))
+            root.setColor(RED);;
+
+        root.deleteMax(root);
+        if (!isEmpty()) root.setColor(BLACK);;
     }
     
     public K min() {
