@@ -61,8 +61,15 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
 			delete(key);
 			return;
 		}
-		root.putNodoRBT(root, key, value);
-		root.setColor(BLACK);;
+		
+		if(root==null) {
+			root = new nodoRBT<K, V>(key, value, 1, BLACK);
+		}else {
+			root.putNodoRBT(root, key, value);
+			root.setColor(BLACK);;
+		}
+		
+		
 	}
 	
 	public void delete(K key) { 
