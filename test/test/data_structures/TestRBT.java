@@ -81,9 +81,13 @@ public class TestRBT {
 		ArregloDinamico<Integer> rta;
 		setUp1();
 
-		rta = RBTree.get("0");
-		assertNull("La respuesta debe ser null",rta);
+		try {
+			rta = RBTree.get("0");
+			fail("Debe lanzar un error porque el árbol está vacío");
+		}catch(Exception e) {
 
+		}
+	
 
 		try {
 			rta = RBTree.get(null);

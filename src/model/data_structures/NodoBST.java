@@ -13,8 +13,7 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 
 	private int size;
 	
-	private boolean color;
-
+	
 	public NodoBST(K key, V value, int size) {
 		this.key = key;
 		values = new ArregloDinamico<V>();
@@ -31,6 +30,13 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 	}
 
 	public int size() {
+		size = 1;
+		if(left!=null) {
+			size+=left.size();
+		}
+		if(right!=null) {
+			size+=right.size();
+		}
 		return size;
 	}
 	
@@ -87,14 +93,12 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 			}else {
 				left.put(pKey, pValue);
 			}
-			size++;
 		}else if(cmp>0) {
 			if(right==null) {
 				right = new NodoBST<K,V>(pKey,pValue,1);
 			}else {
 				right.put(pKey, pValue);
 			}
-			size++;
 		}else {
 			values.addLast(pValue);
 		}
@@ -150,20 +154,29 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 
 	public Lista<K> keysInRange(K kInit, K kFin){
 		ArregloDinamico<K> keyset = new ArregloDinamico<K>();
-		if(left!=null && left.key().compareTo(kInit)>0 && left.key().compareTo(kFin)<0) {
-			ArregloDinamico<K> keysetleft = (ArregloDinamico<K>) left.keysInRange(kInit, kFin);
+		if(left!=null) {
+			ArregloDinamico<K> keysetleft = (ArregloDinamico<K>) left.keySet();
 			for(int i=1; i<keysetleft.size()+1; i++) {
-				keyset.addLast(keysetleft.getElement(i));
+				K llave = keysetleft.getElement(i);
+				if(llave.compareTo(kInit)>0 && llave.compareTo(kFin)<0) {
+					keyset.addLast(llave);
+				}
+				
 			}
 		}
-		if(key.compareTo(kInit)>0 && key.compareTo(kFin)<0) {
+		
+	
+		if(this.key().compareTo(kInit)>0 && this.key().compareTo(kFin)<0) {
 			keyset.addLast(this.key());
 		}
 
-		if(right!=null && right.key().compareTo(kInit)>0 && right.key().compareTo(kFin)<0 ) {
-			ArregloDinamico<K> keysetright = (ArregloDinamico<K>) right.keysInRange(kInit,kFin);
+		if(right!=null) {
+			ArregloDinamico<K> keysetright = (ArregloDinamico<K>) right.keySet();
 			for(int i=1; i<keysetright.size()+1; i++) {
-				keyset.addLast(keysetright.getElement(i));
+				K llave = keysetright.getElement(i);
+				if(llave.compareTo(kInit)>0 && llave.compareTo(kFin)<0) {
+					keyset.addLast(llave);
+				}
 			}
 		}
 		return keyset;
@@ -193,23 +206,26 @@ public class NodoBST<K extends Comparable<K>,V extends Comparable<V>> {
 
 	}
 
-	public int getHeight(K pkey) {
-		int height = -1;
-		if(key.equals(pkey)) {
-			height = 1;;
-		}
-		if(left!= null && key.compareTo(pkey)>0) {
-			height += left.getHeight(pkey);
-		}
+	public int getHeight(K pKey) {
+		int height = 0;
+		
+		
+		
+		
+		int cmp = pKey.compareTo(key);
 
-		if(right!= null && key.compareTo(pkey)<0) {
-			height += right.getHeight(pkey);
+		if(cmp<0) {
+			height += left.getHeight(pKey);
+		}else if(cmp>0) {
+			height += left.getHeight(pKey);
+		}else if(cmp==0) {
+			height += 1;
 		}
 		return height;
 	}
 
 	public String toString(int start) {
-		String respuesta = "("+key.toString()+","+values.toString()+")";
+		String respuesta = "("+key.toString()+","+values.toString()+") - size ="+size;
 		int length = respuesta.length()/2;
 
 		String spaces = "";
