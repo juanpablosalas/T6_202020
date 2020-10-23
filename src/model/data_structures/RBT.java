@@ -41,7 +41,12 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
         	{
         		throw new IllegalArgumentException("La llave no puede ser nula");
         	}
-        return root.get(root, pKey);
+        
+        if(root==null) {
+        	throw new IllegalArgumentException("Árbol vacío");
+        }else {
+        	 return root.get(root, pKey);
+        }
     }
 
 	public boolean contains(K key) 
