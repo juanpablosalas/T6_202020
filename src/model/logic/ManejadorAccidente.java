@@ -24,6 +24,7 @@ public class ManejadorAccidente
 	{
 
 		arbolAccidentes = new BST<String,Accidente>();
+		RBTAccidentes = new RBT<String, Accidente>();
 	}
 
 	public String leerArchivo(int ano) throws Exception
@@ -62,10 +63,10 @@ public class ManejadorAccidente
 
 		String info = "";
 		info += "Número total de accidentes en "+ano+": "+arbolAccidentes.valuesSize()+"\n";
-		info += "Número total de llaves en BST: "+arbolAccidentes.size()+"\n";
-		info += "Altura árbol: "+arbolAccidentes.height()+"\n";
-		info += "Valor mínimo: "+arbolAccidentes.min()+"\n";
-		info += "Valor máximo: "+arbolAccidentes.max()+"\n";
+		info += "Número total de llaves: BST - "+arbolAccidentes.size()+"\t RBT - "+RBTAccidentes.size()+"\n";
+		info += "Altura árbol: BST - "+arbolAccidentes.height()+"\t RBT - "+RBTAccidentes.height()+"\n";
+		info += "Valor mínimo: BST - "+arbolAccidentes.min()+"\t RBT - "+RBTAccidentes.min()+"\n";
+		info += "Valor máximo: BST - "+arbolAccidentes.max()+"\t RBT - "+RBTAccidentes.max()+"\n";
 		//info += arbolAccidentes.toString();
 
 		return info;
@@ -108,7 +109,7 @@ public class ManejadorAccidente
 				grav3++;
 			}
 		}
-		return "Total de accidentes: " + total + "\n Accidentes con gravedad 0: " + grav0+ " \n Accidentes con gravedad 1: " + grav1 + "\n Accidentes con gravedad 2: " + grav2 + "\n Accidentes con gravedad 3: " + grav3 + "\n Tiempo de ejecuci�n: " + tiempo;
+		return "Total de accidentes: " + total + "\n Accidentes con gravedad 0: " + grav0+ " \n Accidentes con gravedad 1: " + grav1 + "\n Accidentes con gravedad 2: " + grav2 + "\n Accidentes con gravedad 3: " + grav3 + "\n Tiempo de ejecuci�n: " + tiempo;
 	}
 	
 	public String buscarAccidenteRBT(String fecha) throws Exception{
@@ -148,6 +149,6 @@ public class ManejadorAccidente
 				grav3++;
 			}
 		}
-		return "Total de accidentes: " + total + "\n Accidentes con gravedad 0: " + grav0+ " \n Accidentes con gravedad 1: " + grav1 + "\n Accidentes con gravedad 2: " + grav2 + "\n Accidentes con gravedad 3: " + grav3 + "\n Tiempo de ejecuci�n: " + tiempo;
+		return "Total de accidentes: " + total + "\n Accidentes con gravedad 0: " + grav0+ " \n Accidentes con gravedad 1: " + grav1 + "\n Accidentes con gravedad 2: " + grav2 + "\n Accidentes con gravedad 3: " + grav3 + "\n Tiempo de ejecuci�n: " + tiempo;
 	}
 }

@@ -35,7 +35,13 @@ public class TestBST {
 		setUp1();
 		assertEquals("El tamaño debe ser cero", binaryTree.size(), 0);
 		setUp2();
-		assertEquals("El tamaño debe ser seis",binaryTree.size(), 6);
+		assertEquals("El tamaño debe ser seis", 6,binaryTree.size());
+		System.out.println(binaryTree);
+		binaryTree.put(45, "Cuarenta y cuatro");
+		binaryTree.put(45, "Cuarenta y 2");
+		binaryTree.put(45, "Cuarenta y 1");
+		System.out.println(binaryTree);
+		assertEquals("El tamaño debe ser seis",6,binaryTree.size());
 	}
 
 	@Test
@@ -89,7 +95,7 @@ public class TestBST {
 		binaryTree.put(6, "Seis");
 		binaryTree.put(7, "Siete");
 		binaryTree.put(8, "Ocho");
-		assertEquals("El tamaño debió aumentar en 3",binaryTree.size(),size+3);
+		assertEquals("El tamaño debió aumentar en 3",size+3,binaryTree.size());
 		assertTrue("El árbol debe tener al 7",binaryTree.contains(7));
 		
 	}
@@ -123,7 +129,6 @@ public class TestBST {
 		binaryTree.put(48, "Cuarenta y ocho");
 		binaryTree.put(49, "Cuarenta y nueve");
 		ArregloDinamico<Integer> keySet = (ArregloDinamico<Integer>) binaryTree.keysInRange(40, 50);
-		System.out.println(keySet.toString());
 		assertTrue("El arreglo tiene todas las llaves",keySet.isPresent(41) != -1 && keySet.isPresent(42) != -1 && keySet.isPresent(43) != -1 && keySet.isPresent(44) != -1 && keySet.isPresent(45) != -1 && keySet.isPresent(46) != -1  && keySet.isPresent(47) != -1  && keySet.isPresent(48) != -1  && keySet.isPresent(49) != -1    );
 	}
 	
@@ -134,7 +139,6 @@ public class TestBST {
 		
 		setUp2();
 		binaryTree.put(1, "Uno");
-		System.out.println(binaryTree.toString());
 		assertEquals("La altura debería ser 3",binaryTree.getHeight(4),3);
 		
 	}

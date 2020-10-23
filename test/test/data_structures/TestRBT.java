@@ -57,6 +57,15 @@ public class TestRBT {
 		assertEquals("El tamaño del árbol debería ser cero", 0,RBTree.size());
 		setUp2();
 		assertEquals("El tamaño del árbol debería ser 12",12,RBTree.size());
+		RBTree.put("20", 6);
+		RBTree.put("20", 7);
+		RBTree.put("20", 8);
+		RBTree.put("20", 9);
+		assertEquals("El tamaño del árbol debería ser 12",12,RBTree.size());
+		RBTree.put("18", 8);
+		RBTree.put("17", 8);
+		RBTree.put("16", 8);
+		assertEquals("El tamaño del árbol debería ser 12",15,RBTree.size());
 	}
 
 	@Test
