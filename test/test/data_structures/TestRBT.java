@@ -2,7 +2,6 @@ package test.data_structures;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -35,16 +34,23 @@ public class TestRBT {
 		RBTree.put("0", 3);
 		RBTree.put("0", 7);
 		RBTree.put("3", 6);
+		System.out.println(RBTree.toString());
 		RBTree.put("10", 4);
+		System.out.println(RBTree.toString());
 		RBTree.put("13", 5);
+		System.out.println(RBTree.toString());
 		RBTree.put("12", 5);
+		System.out.println(RBTree.toString());
 		RBTree.put("8", 5);
+		System.out.println(RBTree.toString());
 		RBTree.put("6", 5);
+		System.out.println(RBTree.toString());
 		RBTree.put("20", 1);
 		RBTree.put("20", 2);
 		RBTree.put("20", 3);
 		RBTree.put("20", 4);
 		RBTree.put("20", 5);
+		System.out.println(RBTree.toString());
 		RBTree.put("15", 5);
 		RBTree.put("19", 8);
 		RBTree.put("13", 2);
@@ -85,7 +91,6 @@ public class TestRBT {
 			rta = RBTree.get("0");
 			fail("Debe lanzar un error porque el árbol está vacío");
 		}catch(Exception e) {
-
 		}
 	
 
@@ -93,9 +98,10 @@ public class TestRBT {
 			rta = RBTree.get(null);
 			fail("La llave no puede ser nula.");
 		}catch(Exception e) {
-
 		}
 
+
+		
 		setUp2();
 		rta = RBTree.get("1");
 		assertEquals("El arreglo sólo debe tener tres elementos",3,rta.size());
@@ -136,6 +142,7 @@ public class TestRBT {
 		assertEquals("El tamaño del arreglo es dos",2,RBTree.size());
 
 		setUp2();
+		System.out.println("FIN");
 		int size = RBTree.size();
 		RBTree.put("20", 6);
 		RBTree.put("20", 7);
