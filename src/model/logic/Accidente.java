@@ -17,8 +17,12 @@ public class Accidente implements Comparable<Accidente>
 	private String horaFinal;
 	
 	private String id;
+	
+	private Double latitud;
+	
+	private Double longitud;
 
-	public Accidente (String pId, Date pFechaInicio, Date pFechaFinal, String pCounty, int pGravedad, String pHoraInicial, String pHoraFinal)
+	public Accidente (String pId, Date pFechaInicio, Date pFechaFinal, String pCounty, int pGravedad, String pHoraInicial, String pHoraFinal, Double pLatitud, Double pLongitud)
 	{
 		id = pId;
 		fechaInicio = pFechaInicio;
@@ -27,6 +31,8 @@ public class Accidente implements Comparable<Accidente>
 		gravedad = pGravedad;
 		horaInicio = pHoraInicial;
 		horaFinal = pHoraFinal;
+		latitud = pLatitud;
+		longitud = pLongitud;
 	}
 
 	public Date darFechaInicio()

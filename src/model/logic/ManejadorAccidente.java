@@ -49,13 +49,15 @@ public class ManejadorAccidente
 				String horaInicio = fechaHoraInicio.split(" ")[1];
 				String fechaFinal = fechaHoraFinal.split(" ")[0];
 				String horaFinal = fechaHoraFinal.split(" ")[1];
+				Double latitud = Double.parseDouble(campos[6]);
+				Double longitud = Double.parseDouble(campos[7]);
 
 				Date fInicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicio);
 				Date fFinal = new SimpleDateFormat("yyyy-MM-dd").parse(fechaFinal);
 				int anoInicio = Integer.parseInt(fechaInicio.split("-")[0]);
 
 				if(anoInicio==ano) {
-					Accidente nuevo = new Accidente(id, fInicio, fFinal, county, gravedad, horaInicio, horaFinal);
+					Accidente nuevo = new Accidente(id, fInicio, fFinal, county, gravedad, horaInicio, horaFinal, latitud, longitud);
 					arbolAccidentes.put(fechaInicio, nuevo);
 					RBTAccidentes.put(fInicio, nuevo);
 				}
