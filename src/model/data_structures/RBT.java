@@ -121,7 +121,7 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
 		return root.keySet();
 	}
 	
-	public Lista<K> keysInRange(K init, K end) {
+	public ArregloDinamico<K> keysInRange(K init, K end) {
 		if(root==null) {
 			return new ArregloDinamico<K>();
 		}

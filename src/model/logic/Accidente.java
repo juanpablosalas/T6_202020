@@ -1,10 +1,12 @@
 package model.logic;
 
+import java.util.Date;
+
 public class Accidente implements Comparable<Accidente>
 {
-	private String fechaInicio;
+	private Date fechaInicio;
 
-	private String fechaFinal;
+	private Date fechaFinal;
 
 	private String county;
 
@@ -16,7 +18,7 @@ public class Accidente implements Comparable<Accidente>
 	
 	private String id;
 
-	public Accidente (String pId, String pFechaInicio, String pFechaFinal, String pCounty, int pGravedad, String pHoraInicial, String pHoraFinal)
+	public Accidente (String pId, Date pFechaInicio, Date pFechaFinal, String pCounty, int pGravedad, String pHoraInicial, String pHoraFinal)
 	{
 		id = pId;
 		fechaInicio = pFechaInicio;
@@ -27,12 +29,12 @@ public class Accidente implements Comparable<Accidente>
 		horaFinal = pHoraFinal;
 	}
 
-	public String darFechaInicio()
+	public Date darFechaInicio()
 	{
 		return fechaInicio;
 	}
 
-	public String darFechaFinal()
+	public Date darFechaFinal()
 	{
 		return fechaFinal;
 	}

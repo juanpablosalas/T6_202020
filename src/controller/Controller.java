@@ -1,5 +1,8 @@
 package controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 import model.logic.ManejadorAccidente;
@@ -24,7 +27,7 @@ public class Controller {
 
 	}
 
-	public void run() 
+	public void run() throws ParseException 
 	{
 		Scanner lector = new Scanner(System.in);
 		boolean fin = false;
@@ -56,10 +59,11 @@ public class Controller {
 				break;
 			case 1: //Requerimiento 1
 				if(datosCargados) {
-					view.printMessage("------------------- \n Ingrese la fecha: \n-------------------");
+					view.printMessage("------------------- \n Ingrese la fecha (formato: YYYY-MM-DD): \n-------------------");
 					dato = lector.next();
+					Date dato2 = new SimpleDateFormat("yyyy-MM-dd").parse(dato);
 					try {
-						respuesta = modelo.buscarAccidenteBST(dato) + modelo.buscarAccidenteRBT(dato);
+						respuesta = modelo.buscarAccidenteBST(dato) + modelo.buscarAccidenteRBT(dato2);
 					} catch (Exception e) {
 						respuesta = e.getMessage();			
 						e.printStackTrace();
@@ -69,7 +73,31 @@ public class Controller {
 					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
 				}
 				break;
+				
 			case 2:
+				if (datosCargados)
+				{
+					view.printMessage("------------------- \n Ingrese la fecha (formato: YYYY-MM-DD): \n-------------------");
+					dato = lector.next();
+					Date dato2 = new SimpleDateFormat("yyyy-MM-dd").parse(dato);
+					try
+					{
+						respuesta = modelo.req2(dato2);
+					}
+					catch (Exception e)
+					{
+						respuesta = e.getMessage();
+						e.printStackTrace();
+					}
+					view.printMessage(respuesta);
+				}
+				else
+				{
+					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
+				}
+				break;
+			
+			case 3:
 				view.printMessage("------------------- \n ¡Hasta pronto! \n-------------------");
 				fin = true;
 				lector.close();

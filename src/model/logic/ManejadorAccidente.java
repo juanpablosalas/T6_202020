@@ -1,6 +1,9 @@
 package model.logic;
 
 import java.io.FileReader;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -18,13 +21,13 @@ public class ManejadorAccidente
 
 	private BST<String, Accidente> arbolAccidentes;
 	
-	private RBT<String, Accidente> RBTAccidentes;
+	private RBT<Date, Accidente> RBTAccidentes;
 
 	public ManejadorAccidente()
 	{
 
 		arbolAccidentes = new BST<String,Accidente>();
-		RBTAccidentes = new RBT<String, Accidente>();
+		RBTAccidentes = new RBT<Date, Accidente>();
 	}
 
 	public String leerArchivo(int ano) throws Exception
@@ -47,12 +50,14 @@ public class ManejadorAccidente
 				String fechaFinal = fechaHoraFinal.split(" ")[0];
 				String horaFinal = fechaHoraFinal.split(" ")[1];
 
+				Date fInicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicio);
+				Date fFinal = new SimpleDateFormat("yyyy-MM-dd").parse(fechaFinal);
 				int anoInicio = Integer.parseInt(fechaInicio.split("-")[0]);
 
 				if(anoInicio==ano) {
-					Accidente nuevo = new Accidente(id, fechaInicio, fechaFinal, county, gravedad, horaInicio, horaFinal);
+					Accidente nuevo = new Accidente(id, fInicio, fFinal, county, gravedad, horaInicio, horaFinal);
 					arbolAccidentes.put(fechaInicio, nuevo);
-					RBTAccidentes.put(fechaInicio, nuevo);
+					RBTAccidentes.put(fInicio, nuevo);
 				}
 
 			}
@@ -112,7 +117,7 @@ public class ManejadorAccidente
 		return "Total de accidentes: " + total + "\n Accidentes con gravedad 0: " + grav0+ " \n Accidentes con gravedad 1: " + grav1 + "\n Accidentes con gravedad 2: " + grav2 + "\n Accidentes con gravedad 3: " + grav3 + "\n Tiempo de ejecuci�n: " + tiempo;
 	}
 	
-	public String buscarAccidenteRBT(String fecha) throws Exception{
+	public String buscarAccidenteRBT(Date fecha) throws Exception{
 	
 		
 		int total = 0;
@@ -150,5 +155,39 @@ public class ManejadorAccidente
 			}
 		}
 		return "Total de accidentes: " + total + "\n Accidentes con gravedad 0: " + grav0+ " \n Accidentes con gravedad 1: " + grav1 + "\n Accidentes con gravedad 2: " + grav2 + "\n Accidentes con gravedad 3: " + grav3 + "\n Tiempo de ejecuci�n: " + tiempo;
+	}
+	
+	public String req2 (Date pFecha) throws Exception
+	{
+		String date = "2016-02-08";
+		Date init = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+		ArregloDinamico<Date> accidentesFecha = RBTAccidentes.keysInRange(init, pFecha);
+		int totalAccidentes = accidentesFecha.size();
+		Date fechaMasAccidentes = null;
+		if(totalAccidentes == 0) {
+			throw new Exception("No se encontro la fecha");
+		}
+		
+		int contador = 0;
+		for (int i = 0; i < accidentesFecha.size(); i++)
+		{
+			Date fechaAccidentes = accidentesFecha.getElement(i);
+			for (int j = 0; j < accidentesFecha.size(); j++)
+			{
+				Date fechaComparacion = accidentesFecha.getElement(j);
+				int contadorComparacion = 0;
+				if (fechaAccidentes.compareTo(fechaComparacion) == 0)
+				{
+					contadorComparacion++;
+				}
+				if (contadorComparacion > contador)
+				{
+					contador = contadorComparacion;
+					fechaMasAccidentes = fechaAccidentes;
+				}
+			}
+		}
+		
+		return "El total de accidentes ocurridos antes de la fecha dada es: " + totalAccidentes + " \n La fecha con más accidentes es: " + fechaMasAccidentes + "\n";
 	}
 }
