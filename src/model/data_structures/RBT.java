@@ -110,7 +110,7 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
 	} 
 	
 	public K max() {
-		if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
+		if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
 		return root.max(root).key;
 	} 
 	
@@ -133,6 +133,14 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
 			return new ArregloDinamico<V>();
 		}
 		return root.valuesInRange(init,end);
+	}
+	
+	public String toString() {
+		if(root==null) {
+			return " ";
+		}
+
+		return root.toString(0);
 	}
 
 }

@@ -23,37 +23,30 @@ public class TestRBT {
 	@Before
 	public void setUp2() {
 		RBTree = new RBT<String,Integer>();
-		RBTree.put("1", 5);
-		RBTree.put("1", 3);
-		RBTree.put("1", 9);
-		RBTree.put("7", 3);
-		RBTree.put("7", 5);
-		RBTree.put("7", 9);
-		RBTree.put("3", 3);
+		RBTree.put("A", 5);
+		RBTree.put("A", 3);
+		RBTree.put("A", 9);
+		RBTree.put("G", 3);
+		RBTree.put("G", 5);
+		RBTree.put("G", 9);
+		RBTree.put("C", 3);
 		RBTree.put("0", 1);
 		RBTree.put("0", 3);
 		RBTree.put("0", 7);
-		RBTree.put("3", 6);
-		System.out.println(RBTree.toString());
-		RBTree.put("10", 4);
-		System.out.println(RBTree.toString());
-		RBTree.put("13", 5);
-		System.out.println(RBTree.toString());
-		RBTree.put("12", 5);
-		System.out.println(RBTree.toString());
-		RBTree.put("8", 5);
-		System.out.println(RBTree.toString());
-		RBTree.put("6", 5);
-		System.out.println(RBTree.toString());
-		RBTree.put("20", 1);
-		RBTree.put("20", 2);
-		RBTree.put("20", 3);
-		RBTree.put("20", 4);
-		RBTree.put("20", 5);
-		System.out.println(RBTree.toString());
-		RBTree.put("15", 5);
-		RBTree.put("19", 8);
-		RBTree.put("13", 2);
+		RBTree.put("C", 6);
+		RBTree.put("J", 4);
+		RBTree.put("M", 5);
+		RBTree.put("L", 5);
+		RBTree.put("H", 5);
+		RBTree.put("F", 5);
+		RBTree.put("T", 1);
+		RBTree.put("T", 2);
+		RBTree.put("T", 3);
+		RBTree.put("T", 4);
+		RBTree.put("T", 5);
+		RBTree.put("O", 5);
+		RBTree.put("S", 8);
+		RBTree.put("M", 2);
 	}
 
 
@@ -63,10 +56,10 @@ public class TestRBT {
 		assertEquals("El tamaño del árbol debería ser cero", 0,RBTree.size());
 		setUp2();
 		assertEquals("El tamaño del árbol debería ser 12",12,RBTree.size());
-		RBTree.put("20", 6);
-		RBTree.put("20", 7);
-		RBTree.put("20", 8);
-		RBTree.put("20", 9);
+		RBTree.put("T", 6);
+		RBTree.put("T", 7);
+		RBTree.put("T", 8);
+		RBTree.put("T", 9);
 		assertEquals("El tamaño del árbol debería ser 12",12,RBTree.size());
 		RBTree.put("18", 8);
 		RBTree.put("17", 8);
@@ -103,18 +96,18 @@ public class TestRBT {
 
 		
 		setUp2();
-		rta = RBTree.get("1");
+		rta = RBTree.get("A");
 		assertEquals("El arreglo sólo debe tener tres elementos",3,rta.size());
 		assertTrue("El arreglo contiene a 5",rta.isPresent(5)!=-1);
 		assertTrue("El arreglo contiene a 3",rta.isPresent(3)!=-1);
 		assertTrue("El arreglo contiene a 9",rta.isPresent(9)!=-1);
 
-		rta = RBTree.get("13");
+		rta = RBTree.get("M");
 		assertEquals("El arreglo sólo debe tener dos elementos",2,rta.size());
 		assertTrue("El arreglo contiene a 5",rta.isPresent(5)!=-1);
 		assertTrue("El arreglo contiene a 2",rta.isPresent(2)!=-1);
 
-		rta = RBTree.get("19");
+		rta = RBTree.get("S");
 		assertEquals("El arreglo sólo debe tener un elemento",1,rta.size());
 		assertTrue("El arreglo contiene a 8",rta.isPresent(8)!=-1);
 	}
@@ -126,14 +119,45 @@ public class TestRBT {
 
 		setUp2();
 		assertTrue("El arreglo debe contener a 0",RBTree.contains("0"));
-		assertTrue("El arreglo debe contener a 1",RBTree.contains("1"));
-		assertTrue("El arreglo debe contener a 7",RBTree.contains("7"));
-		assertTrue("El arreglo debe contener a 19",RBTree.contains("19"));
-		assertTrue("El arreglo debe contener a 6",RBTree.contains("6"));
+		assertTrue("El arreglo debe contener a 1",RBTree.contains("A"));
+		assertTrue("El arreglo debe contener a 7",RBTree.contains("G"));
+		assertTrue("El arreglo debe contener a 19",RBTree.contains("S"));
+		assertTrue("El arreglo debe contener a 6",RBTree.contains("F"));
 	}
 
 	@Test
 	public void testPut() {
+		setUp1();
+		RBTree.put("A", 5);
+		RBTree.put("A", 3);
+		RBTree.put("A", 9);
+		RBTree.put("G", 3);
+		RBTree.put("G", 5);
+		RBTree.put("G", 9);
+		RBTree.put("C", 3);
+		RBTree.put("0", 1);
+		RBTree.put("0", 3);
+		RBTree.put("0", 7);
+		RBTree.put("C", 6);
+		System.out.println("----------------------------------------------------------");
+		System.out.println(RBTree);
+		RBTree.put("J", 4);
+		System.out.println(RBTree);
+		System.out.println("----------------------------------------------------------");
+		RBTree.put("M", 5);
+		RBTree.put("L", 5);
+		RBTree.put("H", 5);
+		RBTree.put("F", 5);
+		RBTree.put("T", 1);
+		RBTree.put("T", 2);
+		RBTree.put("T", 3);
+		RBTree.put("T", 4);
+		RBTree.put("T", 5);
+		RBTree.put("O", 5);
+		RBTree.put("S", 8);
+		RBTree.put("M", 2);
+		
+		
 		setUp1();
 		RBTree.put("100", 2);
 		RBTree.put("100", 4);
@@ -142,19 +166,18 @@ public class TestRBT {
 		assertEquals("El tamaño del arreglo es dos",2,RBTree.size());
 
 		setUp2();
-		System.out.println("FIN");
 		int size = RBTree.size();
-		RBTree.put("20", 6);
-		RBTree.put("20", 7);
-		RBTree.put("20", 8);
-		ArregloDinamico<Integer> valores20 = RBTree.get("20");
+		RBTree.put("T", 6);
+		RBTree.put("T", 7);
+		RBTree.put("T", 8);
+		ArregloDinamico<Integer> valores20 = RBTree.get("T");
 		assertEquals("El tamaño no aumenta pues no se agregan llaves nuevas",size,RBTree.size());
 		assertTrue("El arreglo de valores contiene al 6",valores20.isPresent(6)!=-1);
 		assertTrue("El arreglo de valores contiene al 7",valores20.isPresent(7)!=-1);
 		assertTrue("El arreglo de valores contiene al 8",valores20.isPresent(8)!=-1);
 
-		RBTree.put("15", 33);
-		ArregloDinamico<Integer> valores15 = RBTree.get("15");
+		RBTree.put("O", 33);
+		ArregloDinamico<Integer> valores15 = RBTree.get("O");
 		assertEquals("El tamaño no aumenta pues no se agregan llaves nuevas",size,RBTree.size());
 		assertTrue("El arreglo de valores contiene al 33",valores15.isPresent(33)!=-1);
 	}
@@ -163,9 +186,9 @@ public class TestRBT {
 	public void testDelete() {
 		setUp2();
 		int size = RBTree.size();
-		RBTree.delete("13");
+		RBTree.delete("M");
 		assertEquals("El tamaño del árbol debió disminuir",RBTree.size(),size-1);
-		assertFalse("El árbol ya no debe contener a 13",RBTree.contains("13"));
+		assertFalse("El árbol ya no debe contener a 13",RBTree.contains("M"));
 	}
 
 	@Test

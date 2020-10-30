@@ -78,7 +78,7 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 	
 	public nodoRBT<K,V> delete(nodoRBT<K,V> pNodo, K key) { 
 
-		if (key.compareTo(pNodo.key) < 0)  {
+		if (key.compareTo(pNodo.key()) < 0)  {
 			if (!esRojo(pNodo.left()) && !esRojo(pNodo.left().left()))
 				pNodo = moveRedLeft(pNodo);
 			pNodo.setLeft(delete(pNodo.left(), key));
@@ -93,7 +93,7 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 			if (!esRojo(pNodo.right()) && !esRojo(pNodo.right().left())) {
 				pNodo = moveRedRight(pNodo);
 			}
-			if (key.compareTo(pNodo.key) == 0) {
+			if (key.compareTo(pNodo.key()) == 0) {
 				nodoRBT<K,V> x = min(pNodo.right());
 				pNodo.setKey(x.key());
 				pNodo.setValues(x.values());
@@ -123,17 +123,17 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 		nodoRBT<K,V> x = pNodo.right();
 		pNodo.setRight(x.left());
 		x.setLeft(pNodo);
-		x.setColor(x.left().color());
-		x.left().setColor(RBT.RED);
+		x.setColor(pNodo.color());
+		pNodo.setColor(RBT.RED);
 		x.setSize(size(pNodo));
 		pNodo.setSize(size(pNodo.left()) + size(pNodo.right()) + 1);
 		return x;
 	}
 
 	private void flipColors(nodoRBT<K,V> pNodo) {
-		pNodo.setColor(!pNodo.color());
-		pNodo.left().setColor(!pNodo.left().color());
-		pNodo.right().setColor(!pNodo.right().color() );
+		pNodo.setColor(RBT.RED);
+		pNodo.left().setColor(RBT.BLACK);
+		pNodo.right().setColor(RBT.BLACK );
 	}
 
 	private nodoRBT<K,V> moveRedLeft(nodoRBT<K,V> h) {
@@ -186,7 +186,7 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 		{
 			return false;
 		}
-		return pNodo.color == RBT.RED;
+		return pNodo.color() == RBT.RED;
 	}
 
 	public ArregloDinamico<V> get(nodoRBT<K,V> pNodo, K key) {
@@ -209,7 +209,9 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 	}
 
 	public nodoRBT<K,V> put(nodoRBT<K,V> pNodo, K key, V val) { 
-		if (pNodo == null) return new nodoRBT<K,V>(key, val, 1, RBT.RED);
+		if (pNodo == null) {
+			return new nodoRBT<K,V>(key, val, 1, RBT.RED);
+		}
 
 		int cmp = key.compareTo(pNodo.key());
 		if      (cmp < 0) {
@@ -223,12 +225,17 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 		}
 
 		if (esRojo(pNodo.right()) && !esRojo(pNodo.left())) {
+			System.out.println(pNodo.toString(0));
+			System.out.println(pNodo.key()+"ROTA IZQ");
 			pNodo = rotateLeft(pNodo);
+			System.out.println(pNodo.toString(0));
 		}
 		if (esRojo(pNodo.left())  &&  esRojo(pNodo.left().left())) {
+			System.out.println("ROTA DER");
 			pNodo = rotateRight(pNodo);
 		}
 		if (esRojo(pNodo.left())  &&  esRojo(pNodo.right()))    {
+			System.out.println("FLIP COLS");
 			flipColors(pNodo);
 		}
 		pNodo.setSize(size(pNodo.left()) + size(pNodo.right()) + 1);
@@ -333,24 +340,7 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 		return keyset;
 	}
 	
-	public String toString(int start) {
-		String respuesta = "("+key.toString()+","+values.toString()+") - size ="+size +" - color = "+color;
-		int length = respuesta.length()/2;
-
-		String spaces = "";
-		for(int j=0; j<start+length; j++) {
-			spaces += " ";
-		}
-
-		if(left!=null) {
-			respuesta += "\n"+spaces+"L|----"+left.toString(start+5);
-		}
-		if(right!=null) {
-			respuesta += "\n"+spaces+"R|----"+right.toString(start+5);
-		}
-
-		return respuesta;
-	}
+	
 	
 	public Lista<V> valuesInRange(K kInit, K kFin){
 		ArregloDinamico<V> valueSet = new ArregloDinamico<V>();
@@ -374,5 +364,24 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 		}
 		return valueSet;
 
+	}
+	
+	public String toString(int start) {
+		String respuesta = "("+key.toString()+","+values.toString()+") - size ="+size +" - color = "+color;
+		int length = respuesta.length()/2;
+
+		String spaces = "";
+		for(int j=0; j<start+length; j++) {
+			spaces += " ";
+		}
+
+		if(left!=null) {
+			respuesta += "\n"+spaces+"L|----"+left.toString(start+5);
+		}
+		if(right!=null) {
+			respuesta += "\n"+spaces+"R|----"+right.toString(start+5);
+		}
+
+		return respuesta;
 	}
 }
