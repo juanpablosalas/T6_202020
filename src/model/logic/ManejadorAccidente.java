@@ -1,6 +1,7 @@
 package model.logic;
 
 import java.io.FileReader;
+import java.util.Calendar;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -191,5 +192,65 @@ public class ManejadorAccidente
 		}
 		
 		return "El total de accidentes ocurridos antes de la fecha dada es: " + totalAccidentes + " \n La fecha con más accidentes es: " + fechaMasAccidentes + "\n";
+	}
+	
+	public String req4(Date pFechaInicio, Date pFechaFinal) {
+		ArregloDinamico<Accidente> accidentes = (ArregloDinamico<Accidente>) RBTAccidentes.valuesInRange(pFechaInicio, pFechaFinal);
+		
+		for(int i = 0; i < accidentes.size(); i++) {
+			Accidente actual = accidentes.getElement(i);
+			actual.
+		}
+	}
+	
+	public String req6 (double pLongitud, double pLatitud, double pRadio) {
+		ArregloDinamico<Accidente> accidentes = (ArregloDinamico<Accidente>) RBTAccidentes.valuesInRange(RBTAccidentes.min(), RBTAccidentes.max());
+		int totalAccidentes = 0;
+		int lunes = 0;
+		int martes = 0;
+		int miercoles = 0;
+		int jueves = 0;
+		int viernes = 0;
+		int sabado = 0;
+		int domingo = 0;
+		
+		for(int i = 0; i < accidentes.size(); i++) {
+			Accidente actual = accidentes.getElement(i);
+			
+			Date fecha = actual.darFechaInicio();
+			int dia = getDayNumberOld(fecha);
+			
+			double distancia = calcularDistancia(pLongitud, actual.darLongitud(), pLatitud, actual.darLatitud());
+			if(distancia <= pRadio) {
+				totalAccidentes++;
+				if(dia == 1) {
+					domingo++;
+				} else if(dia == 2) {
+					lunes++;
+				} else if(dia == 3) {
+					martes++;
+				} else if(dia == 4) {
+					miercoles++;
+				} else if(dia == 5) {
+					jueves++;
+				} else if(dia == 6) {
+					viernes++;
+				} else if(dia == 7) {
+					sabado++;
+				}
+			}
+		}
+		return "Hay un total de " + totalAccidentes + " accidentes dentro del radio dado. \n Accidentes que sucedieron en lunes: " + lunes + "\n Accidentes que sucedieron en martes " + martes + "\n Accidentes que sucedieron en miercoles " + miercoles + "\n Accidentes que sucedieron en jueves " + jueves + "\n Accidentes que sucedieron en viernes " + viernes + "\n Accidentes que sucedieron en sabado " + sabado + "\n Accidentes que sucedieron en domingo " + domingo;
+	}
+	
+	private double calcularDistancia(double pLongitud1, double pLongitud2, double pLatitud1, double pLatitud2) {
+		double distancia = Math.sqrt((pLongitud2 - pLongitud1) + (pLatitud2 - pLatitud1));
+		return distancia;
+	}
+	
+	public static int getDayNumberOld(Date date) {
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(date);
+	    return cal.get(Calendar.DAY_OF_WEEK);
 	}
 }
