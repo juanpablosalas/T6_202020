@@ -1,5 +1,6 @@
 package model.logic;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Accidente implements Comparable<Accidente>
@@ -12,17 +13,19 @@ public class Accidente implements Comparable<Accidente>
 
 	private int gravedad;
 
-	private String horaInicio;
+	private Date horaInicio;
 
-	private String horaFinal;
+	private Date horaFinal;
 	
 	private String id;
 	
 	private Double latitud;
 	
 	private Double longitud;
+	
+	private String estado;
 
-	public Accidente (String pId, Date pFechaInicio, Date pFechaFinal, String pCounty, int pGravedad, String pHoraInicial, String pHoraFinal, Double pLatitud, Double pLongitud)
+	public Accidente (String pId, Date pFechaInicio, Date pFechaFinal, String pCounty, int pGravedad, Date pHoraInicial, Date pHoraFinal, Double pLatitud, Double pLongitud, String pEstado)
 	{
 		id = pId;
 		fechaInicio = pFechaInicio;
@@ -33,6 +36,7 @@ public class Accidente implements Comparable<Accidente>
 		horaFinal = pHoraFinal;
 		latitud = pLatitud;
 		longitud = pLongitud;
+		estado = pEstado;
 	}
 
 	public Date darFechaInicio()
@@ -55,12 +59,12 @@ public class Accidente implements Comparable<Accidente>
 		return gravedad;
 	}
 
-	public String darHoraInicio()
+	public Date darHoraInicio()
 	{
 		return horaInicio;
 	}
 
-	public String darHoraFinal()
+	public Date darHoraFinal()
 	{
 		return horaFinal;
 	}
@@ -76,6 +80,31 @@ public class Accidente implements Comparable<Accidente>
 		return comp;
 	}
 
+	@SuppressWarnings("deprecation")
+	public void cambiarMinutos()
+	{
+		if (horaInicio.getMinutes() >= 0 && horaInicio.getMinutes() <= 29)
+		{
+			horaInicio.setMinutes(00);
+		}
+		else 
+		{
+			horaInicio.setMinutes(30);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void cambiarSegundos()
+	{
+		if (horaInicio.getSeconds() >= 0 && horaInicio.getSeconds() <=29)
+		{
+			horaInicio.setSeconds(00);
+		}
+		else 
+		{
+			horaInicio.setSeconds(30);
+		}
+	}
 	
 	@Override
 	public String toString() {
