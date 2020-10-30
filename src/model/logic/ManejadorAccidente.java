@@ -1,7 +1,6 @@
 package model.logic;
 
 import java.io.FileReader;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,7 +20,12 @@ public class ManejadorAccidente
 {
 	public static final String DATOS_ACCIDENTES = "data/us_accidents_small.csv";
 
+	//public static final String DATOS_ACCIDENTES = "data/us_accidents_dis_2017.csv";
+
 	public static final SimpleDateFormat FORMATO_FECHA = new SimpleDateFormat("yyyy-MM-dd");
+
+	public static final SimpleDateFormat FORMATO_HORA = new SimpleDateFormat("HH:mm");
+
 
 	private BST<String, Accidente> arbolAccidentes;
 
@@ -63,8 +67,8 @@ public class ManejadorAccidente
 
 				Date fInicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicio);
 				Date fFinal = new SimpleDateFormat("yyyy-MM-dd").parse(fechaFinal);
-				Date hInicial = new SimpleDateFormat("hh:mm:ss").parse(horaInicio);
-				Date hFinal = new SimpleDateFormat("hh:mm:ss").parse(horaFinal);
+				Date hInicial = new SimpleDateFormat("HH:mm").parse(horaInicio);
+				Date hFinal = new SimpleDateFormat("HH:mm").parse(horaFinal);
 				int anoInicio = Integer.parseInt(fechaInicio.split("-")[0]);
 
 				if(anoInicio==ano) 
@@ -78,6 +82,7 @@ public class ManejadorAccidente
 				}
 
 			}
+
 		} catch (Exception e) 
 		{
 			e.printStackTrace();
@@ -89,7 +94,6 @@ public class ManejadorAccidente
 		info += "Altura árbol: "+RBTAccidentes.height()+"\n";
 		info += "Valor mínimo: "+FORMATO_FECHA.format(RBTAccidentes.min())+"\n";
 		info += "Valor máximo: "+FORMATO_FECHA.format(RBTAccidentes.max())+"\n";
-		//info += arbolAccidentes.toString();
 
 		return info;
 	}
@@ -244,8 +248,8 @@ public class ManejadorAccidente
 				estadoMasAccidentado = estadoActual;
 			}
 		}
-		
-		
+
+
 
 		return "El estado donde más accidentes ha habido entre el " +FORMATO_FECHA.format(fechaIn)+" y "+FORMATO_FECHA.format(fechaFin)+ " (inclusivo) es "+estadoMasAccidentado + " y la fecha donde más accidentes hubo fue "+FORMATO_FECHA.format(fechaMasAccidentes(accidentes));
 	}
@@ -291,10 +295,32 @@ public class ManejadorAccidente
 		return "Hay un total de " + totalAccidentes + " accidentes dentro del radio dado. \n Accidentes que sucedieron en lunes: " + lunes + "\n Accidentes que sucedieron en martes " + martes + "\n Accidentes que sucedieron en miercoles " + miercoles + "\n Accidentes que sucedieron en jueves " + jueves + "\n Accidentes que sucedieron en viernes " + viernes + "\n Accidentes que sucedieron en sabado " + sabado + "\n Accidentes que sucedieron en domingo " + domingo;
 	}
 
-	private double calcularDistancia(double pLongitud1, double pLongitud2, double pLatitud1, double pLatitud2) {
-		double distancia = Math.sqrt((pLongitud2 - pLongitud1) + (pLatitud2 - pLatitud1));
-		return distancia;
-	}
+	private double calcularDistancia(double lat1, double lat2, double lon1, double lon2) { 
+
+		// The math module contains a function 
+		// named toRadians which converts from 
+		// degrees to radians. 
+		lon1 = Math.toRadians(lon1); 
+		lon2 = Math.toRadians(lon2); 
+		lat1 = Math.toRadians(lat1); 
+		lat2 = Math.toRadians(lat2); 
+
+		// Haversine formula  
+		double dlon = lon2 - lon1;  
+		double dlat = lat2 - lat1; 
+		double a = Math.pow(Math.sin(dlat / 2), 2) 
+				+ Math.cos(lat1) * Math.cos(lat2) 
+				* Math.pow(Math.sin(dlon / 2),2); 
+
+		double c = 2 * Math.asin(Math.sqrt(a)); 
+
+		// Radius of earth in kilometers. Use 3956  
+		// for miles 
+		double r = 6371; 
+
+		// calculate the result 
+		return(c * r); 
+	}  
 
 	public static int getDayNumberOld(Date date) {
 		Calendar cal = Calendar.getInstance();
@@ -309,35 +335,36 @@ public class ManejadorAccidente
 		return calendar;
 	}
 
+	public Date round(Date fecha) {
 
-	@SuppressWarnings("deprecation")
-	public String req5(String pHora) throws ParseException
+
+		long longDate = fecha.getTime();
+		Calendar cal = convert(fecha);
+		int minutos = cal.get(Calendar.MINUTE);
+		//int hora = cal.get(Calendar.HOUR);
+
+		if(minutos<15) {
+			longDate -= minutos*60000;
+		}else if(minutos<=30) {
+			longDate += (30-minutos)*60000;
+		}else {
+			longDate += (60-minutos)*60000;
+		}
+
+		Date nueva = new Date(longDate);
+
+
+		return nueva;
+	}
+
+	public String req5(Date horaIn, Date horaFin) throws ParseException
 	{
-		DateFormat formatter = new SimpleDateFormat("hh:mm:ss");
-		Date calendar = (Date)formatter.parse(pHora);
-		if (calendar.getMinutes() >= 0 && calendar.getMinutes() <= 29)
-		{
-			calendar.setMinutes(00);
-		}
-		else 
-		{
-			calendar.setMinutes(30);;
-		}
 
-		if (calendar.getSeconds() >= 0 && calendar.getSeconds() <=29)
-		{
-			calendar.setSeconds(0);
-		}
-		else 
-		{
-			calendar.setSeconds(30);
-		}
-		String date = "00:00:00";
-		String date2 = "23:59:59";
-		Date horaFinal = new SimpleDateFormat("hh:mm:ss").parse(date2);
-		Date init = new SimpleDateFormat("hh:mm:ss").parse(date);
-		ArregloDinamico<Accidente> todosLosAccidentes = RBTHorario.valuesInRange(init, horaFinal);
-		ArregloDinamico<Accidente> valuesHora = RBTHorario.valuesInRange(init, calendar);
+		Date horaInit = new Date(round(horaIn).getTime()-10);
+		Date horaFinal = new Date(round(horaFin).getTime()+10);
+
+		ArregloDinamico<Accidente> todosLosAccidentes = RBTHorario.valuesInRange(new Date(RBTHorario.min().getTime()-10), new Date(RBTHorario.max().getTime()+10));
+		ArregloDinamico<Accidente> valuesHora = RBTHorario.valuesInRange(horaInit, horaFinal);
 		ArregloDinamico<Accidente> severidad0 = new ArregloDinamico<Accidente>();
 		ArregloDinamico<Accidente> severidad1 = new ArregloDinamico<Accidente>();
 		ArregloDinamico<Accidente> severidad2 = new ArregloDinamico<Accidente>();
@@ -345,9 +372,11 @@ public class ManejadorAccidente
 		int totalAccidentes = valuesHora.size();
 		int cantidadAccidentesComparacion = todosLosAccidentes.size();
 
-		int porcentaje = (totalAccidentes * 100) / cantidadAccidentesComparacion;
+		double porcentaje = (totalAccidentes * 100.0) / (double) cantidadAccidentesComparacion;
 
-		for (int i = 0; i < valuesHora.size(); i++)
+		porcentaje = ((int)(porcentaje*100))/100.0;
+
+		for (int i = 1; i < valuesHora.size()+1; i++)
 		{
 			Accidente valor = valuesHora.getElement(i);
 			if (valor.darGravedad() == 0)
@@ -367,7 +396,7 @@ public class ManejadorAccidente
 				severidad3.addLast(valor);
 			}
 		}
-		String respuesta = "La cantidad de accidentes en ese rango horario es de: " + totalAccidentes + " \n El porcentaje de accidentes entre ese rango: " + porcentaje + "%" + " \n Accidentes con gravedad 0 fueron: " + severidad0.size() + " \n Accidentes con gravedad 1 fueron: " + severidad1.size() + " \n Accidentes con gravedad 2 fueron: " + severidad2.size() + "\n" + "\n Accidentes con gravedad 3 fueron: " + severidad3.size();
+		String respuesta = "La cantidad de accidentes en ese rango horario es de: " + totalAccidentes + " \n El porcentaje de accidentes entre ese rango: " + porcentaje + "%" + " \n \t Accidentes con gravedad 0 fueron: " + severidad0.size() + " \n \t Accidentes con gravedad 1 fueron: " + severidad1.size() + " \n \t Accidentes con gravedad 2 fueron: " + severidad2.size() + "\n \t Accidentes con gravedad 3 fueron: " + severidad3.size() +"\n";
 		return respuesta;
 	}
 

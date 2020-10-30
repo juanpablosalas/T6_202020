@@ -145,11 +145,17 @@ public class Controller {
 			case 5: //Requerimiento 5
 				if (datosCargados)
 				{
-					view.printMessage("------------------- \n Ingrese la hora (formato: hh-mm-ss): \n-------------------");
+					view.printMessage("------------------- \n Ingrese la hora inicial (formato: HH:mm): \n-------------------");
 					dato = lector.next();
+					view.printMessage("------------------- \n Ingrese la hora final (formato: HH:mm): \n-------------------");
+					dato6 = lector.next();
+					
+					Date datoIn = new SimpleDateFormat("HH:mm").parse(dato);
+					Date datoFin = new SimpleDateFormat("HH:mm").parse(dato6);
+
 					try
 					{
-						respuesta = modelo.req5(dato);
+						respuesta = modelo.req5(datoIn,datoFin);
 					}
 					catch (Exception e)
 					{
