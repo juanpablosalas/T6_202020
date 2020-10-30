@@ -196,10 +196,11 @@ public class ManejadorAccidente
 	
 	public String req4(Date pFechaInicio, Date pFechaFinal) {
 		ArregloDinamico<Accidente> accidentes = (ArregloDinamico<Accidente>) RBTAccidentes.valuesInRange(pFechaInicio, pFechaFinal);
+		int mayor = accidentes.getElement(0).da
 		
 		for(int i = 0; i < accidentes.size(); i++) {
 			Accidente actual = accidentes.getElement(i);
-			actual.
+			
 		}
 	}
 	

@@ -33,6 +33,9 @@ public class Controller {
 		boolean fin = false;
 		boolean datosCargados = false;
 		String dato = "";
+		double dato3 = 0;
+		double dato4 = 0;
+		double dato5 = 0;
 		String respuesta = "";
 		String respuesta2 = "";
 
@@ -96,8 +99,26 @@ public class Controller {
 					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
 				}
 				break;
+				
+			case 3: //Requerimiento 6
+				if(datosCargados) {
+					view.printMessage("------------------- \n Ingrese la longitud: \n-------------------");
+					lector.nextLine();
+					dato3 = lector.nextInt();
+
+					view.printMessage("------------------- \n Ingrese la latitud: \n-------------------");
+					dato4 = lector.nextInt();
+					
+					view.printMessage("------------------- \n Ingrese el radio: \n-------------------");
+					dato5 = lector.nextInt();
+					
+					respuesta = modelo.req6(dato3, dato4, dato5);
+					view.printMessage(respuesta);
+				} else {
+					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
+				}
 			
-			case 3:
+			case 4:
 				view.printMessage("------------------- \n ¡Hasta pronto! \n-------------------");
 				fin = true;
 				lector.close();

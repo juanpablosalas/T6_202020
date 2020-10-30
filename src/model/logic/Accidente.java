@@ -65,6 +65,13 @@ public class Accidente implements Comparable<Accidente>
 		return horaFinal;
 	}
 
+	public double darLongitud() {
+		return longitud;
+	}
+	
+	public double darLatitud() {
+		return latitud;
+	}
 	@Override
 	public int compareTo(Accidente o) {
 		int comp = 1;
