@@ -255,8 +255,8 @@ public class ManejadorAccidente
 	}
 
 
-	public String req6 (double pLongitud, double pLatitud, double pRadio) {
-		ArregloDinamico<Accidente> accidentes = (ArregloDinamico<Accidente>) RBTAccidentes.valuesInRange(RBTAccidentes.min(), RBTAccidentes.max());
+	public String req6 (double pLatitud, double pLongitud, double pRadio) {
+		ArregloDinamico<Accidente> accidentes = RBTAccidentes.valuesInRange(new Date(RBTAccidentes.min().getTime()-10), new Date(RBTAccidentes.max().getTime()+10));
 		int totalAccidentes = 0;
 		int lunes = 0;
 		int martes = 0;
@@ -266,33 +266,29 @@ public class ManejadorAccidente
 		int sabado = 0;
 		int domingo = 0;
 
-		for(int i = 0; i < accidentes.size(); i++) {
+		for(int i = 1; i < accidentes.size()+1; i++) {
 			Accidente actual = accidentes.getElement(i);
 
 			Date fecha = actual.darFechaInicio();
 			int dia = getDayNumberOld(fecha);
 
+			
 			double distancia = calcularDistancia(pLongitud, actual.darLongitud(), pLatitud, actual.darLatitud());
+			System.out.println("Long: "+actual.darLongitud()+"Lat:"+actual.darLatitud()+"Dist:"+distancia);
 			if(distancia <= pRadio) {
 				totalAccidentes++;
-				if(dia == 1) {
-					domingo++;
-				} else if(dia == 2) {
-					lunes++;
-				} else if(dia == 3) {
-					martes++;
-				} else if(dia == 4) {
-					miercoles++;
-				} else if(dia == 5) {
-					jueves++;
-				} else if(dia == 6) {
-					viernes++;
-				} else if(dia == 7) {
-					sabado++;
+				switch(dia) {
+				case Calendar.SUNDAY: domingo++; break;
+				case Calendar.MONDAY: lunes++; break;
+				case Calendar.TUESDAY: martes++; break;
+				case Calendar.WEDNESDAY: miercoles++; break;
+				case Calendar.THURSDAY: jueves++; break;
+				case Calendar.FRIDAY: viernes++; break;
+				case Calendar.SATURDAY: sabado++; break;
 				}
 			}
 		}
-		return "Hay un total de " + totalAccidentes + " accidentes dentro del radio dado. \n Accidentes que sucedieron en lunes: " + lunes + "\n Accidentes que sucedieron en martes " + martes + "\n Accidentes que sucedieron en miercoles " + miercoles + "\n Accidentes que sucedieron en jueves " + jueves + "\n Accidentes que sucedieron en viernes " + viernes + "\n Accidentes que sucedieron en sabado " + sabado + "\n Accidentes que sucedieron en domingo " + domingo;
+		return "Hay un total de " + totalAccidentes + " accidentes dentro del radio dado. \n Accidentes que sucedieron en lunes: " + lunes + "\n Accidentes que sucedieron en martes " + martes + "\n Accidentes que sucedieron en miercoles " + miercoles + "\n Accidentes que sucedieron en jueves " + jueves + "\n Accidentes que sucedieron en viernes " + viernes + "\n Accidentes que sucedieron en sabado " + sabado + "\n Accidentes que sucedieron en domingo " + domingo +"\n";
 	}
 
 	private double calcularDistancia(double lat1, double lat2, double lon1, double lon2) { 

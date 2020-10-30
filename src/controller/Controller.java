@@ -173,16 +173,17 @@ public class Controller {
 
 			case 6: //Requerimiento 6
 				if(datosCargados) {
-					view.printMessage("------------------- \n Ingrese la longitud: \n-------------------");
-					lector.nextLine();
-					dato3 = lector.nextInt();
-
 					view.printMessage("------------------- \n Ingrese la latitud: \n-------------------");
-					dato4 = lector.nextInt();
+					lector.nextLine();
+					dato3 = Double.parseDouble(lector.next());
 
-					view.printMessage("------------------- \n Ingrese el radio: \n-------------------");
-					dato5 = lector.nextInt();
+					view.printMessage("------------------- \n Ingrese la longitud: \n-------------------");
+					dato4 = Double.parseDouble(lector.next());
 
+					view.printMessage("------------------- \n Ingrese el radio (en km): \n-------------------");
+					dato5 = Double.parseDouble(lector.next());
+
+					
 					respuesta = modelo.req6(dato3, dato4, dato5);
 					view.printMessage(respuesta);
 				} else {
