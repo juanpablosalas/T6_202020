@@ -15,6 +15,7 @@ public class View
 			System.out.println("0. Realizar la carga de los accidentes.");
 			System.out.println("1. Requerimiento 1");
 			System.out.println("2. Requerimiento 2");
+			System.out.println("5. Requerimiento 5");
 			System.out.println("3. Exit");
 			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g., 1):");
 		}

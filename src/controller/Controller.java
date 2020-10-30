@@ -118,7 +118,34 @@ public class Controller {
 					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
 				}
 			
+
 			case 4:
+
+			case 5:
+				if (datosCargados)
+				{
+					view.printMessage("------------------- \n Ingrese la hora (formato: hh-mm-ss): \n-------------------");
+					dato = lector.next();
+					Date dato2 = new SimpleDateFormat("hh-mm-ss").parse(dato);
+					try
+					{
+						respuesta = modelo.req5(dato2);
+					}
+					catch (Exception e)
+					{
+						respuesta = e.getMessage();
+						e.printStackTrace();
+					}
+					view.printMessage(respuesta);
+				}
+				else
+				{
+					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
+				}
+				break;
+				
+			case 6:
+
 				view.printMessage("------------------- \n ¡Hasta pronto! \n-------------------");
 				fin = true;
 				lector.close();

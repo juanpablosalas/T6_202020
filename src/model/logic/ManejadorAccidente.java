@@ -23,12 +23,15 @@ public class ManejadorAccidente
 	private BST<String, Accidente> arbolAccidentes;
 	
 	private RBT<Date, Accidente> RBTAccidentes;
+	
+	private RBT<Date, Accidente> RBTHorario;
 
 	public ManejadorAccidente()
 	{
 
 		arbolAccidentes = new BST<String,Accidente>();
 		RBTAccidentes = new RBT<Date, Accidente>();
+		RBTHorario = new RBT<Date, Accidente>();
 	}
 
 	public String leerArchivo(int ano) throws Exception
@@ -52,15 +55,22 @@ public class ManejadorAccidente
 				String horaFinal = fechaHoraFinal.split(" ")[1];
 				Double latitud = Double.parseDouble(campos[6]);
 				Double longitud = Double.parseDouble(campos[7]);
+				String estado = campos[17];
 
 				Date fInicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicio);
 				Date fFinal = new SimpleDateFormat("yyyy-MM-dd").parse(fechaFinal);
+				Date hInicial = new SimpleDateFormat("hh:mm:ss").parse(horaInicio);
+				Date hFinal = new SimpleDateFormat("hh:mm:ss").parse(horaFinal);
 				int anoInicio = Integer.parseInt(fechaInicio.split("-")[0]);
 
-				if(anoInicio==ano) {
-					Accidente nuevo = new Accidente(id, fInicio, fFinal, county, gravedad, horaInicio, horaFinal, latitud, longitud);
+				if(anoInicio==ano) 
+				{
+					Accidente nuevo = new Accidente(id, fInicio, fFinal, county, gravedad, hInicial, hFinal, latitud, longitud, estado);
+					nuevo.cambiarMinutos();
+					nuevo.cambiarSegundos();
 					arbolAccidentes.put(fechaInicio, nuevo);
 					RBTAccidentes.put(fInicio, nuevo);
+					RBTHorario.put(hInicial, nuevo);
 				}
 
 			}
@@ -165,7 +175,8 @@ public class ManejadorAccidente
 		String date = "2016-02-08";
 		Date init = new SimpleDateFormat("yyyy-MM-dd").parse(date);
 		ArregloDinamico<Date> accidentesFecha = RBTAccidentes.keysInRange(init, pFecha);
-		int totalAccidentes = accidentesFecha.size();
+		ArregloDinamico<Accidente> valoresFecha = RBTAccidentes.valuesInRange(init, pFecha);
+		int totalAccidentes = valoresFecha.size();
 		Date fechaMasAccidentes = null;
 		if(totalAccidentes == 0) {
 			throw new Exception("No se encontro la fecha");
@@ -175,9 +186,9 @@ public class ManejadorAccidente
 		for (int i = 0; i < accidentesFecha.size(); i++)
 		{
 			Date fechaAccidentes = accidentesFecha.getElement(i);
-			for (int j = 0; j < accidentesFecha.size(); j++)
+			for (int j = 0; j < valoresFecha.size(); j++)
 			{
-				Date fechaComparacion = accidentesFecha.getElement(j);
+				Date fechaComparacion = valoresFecha.getElement(j).darFechaInicio();
 				int contadorComparacion = 0;
 				if (fechaAccidentes.compareTo(fechaComparacion) == 0)
 				{
@@ -196,7 +207,6 @@ public class ManejadorAccidente
 	
 	public String req4(Date pFechaInicio, Date pFechaFinal) {
 		ArregloDinamico<Accidente> accidentes = (ArregloDinamico<Accidente>) RBTAccidentes.valuesInRange(pFechaInicio, pFechaFinal);
-		int mayor = accidentes.getElement(0).da
 		
 		for(int i = 0; i < accidentes.size(); i++) {
 			Accidente actual = accidentes.getElement(i);
@@ -254,4 +264,65 @@ public class ManejadorAccidente
 	    cal.setTime(date);
 	    return cal.get(Calendar.DAY_OF_WEEK);
 	}
+
+
+@SuppressWarnings("deprecation")
+public String req5(Date pHora) throws ParseException
+{
+	if (pHora.getMinutes() >= 0 && pHora.getMinutes() <= 29)
+	{
+		pHora.setMinutes(00);
+	}
+	else 
+	{
+		pHora.setMinutes(30);
+	}
+	
+	if (pHora.getSeconds() >= 0 && pHora.getSeconds() <=29)
+	{
+		pHora.setSeconds(00);
+	}
+	else 
+	{
+		pHora.setSeconds(30);
+	}
+	String date = "00:00:00";
+	String date2 = "23:59:59";
+	Date horaFinal = new SimpleDateFormat("hh:mm:ss").parse(date2);
+	Date init = new SimpleDateFormat("hh:mm:ss").parse(date);
+	ArregloDinamico<Accidente> todosLosAccidentes = RBTHorario.valuesInRange(init, horaFinal);
+	ArregloDinamico<Accidente> valuesHora = RBTHorario.valuesInRange(init, pHora);
+	ArregloDinamico<Accidente> severidad0 = new ArregloDinamico<Accidente>();
+	ArregloDinamico<Accidente> severidad1 = new ArregloDinamico<Accidente>();
+	ArregloDinamico<Accidente> severidad2 = new ArregloDinamico<Accidente>();
+	ArregloDinamico<Accidente> severidad3 = new ArregloDinamico<Accidente>();
+	int totalAccidentes = valuesHora.size();
+	int cantidadAccidentesComparacion = todosLosAccidentes.size();
+	
+	int porcentaje = (totalAccidentes * 100) / cantidadAccidentesComparacion;
+	
+	for (int i = 0; i < valuesHora.size(); i++)
+	{
+		Accidente valor = valuesHora.getElement(i);
+		if (valor.darGravedad() == 0)
+		{
+			severidad0.addLast(valor);
+		}
+		else if (valor.darGravedad() == 1)
+		{
+			severidad1.addLast(valor);
+		}
+		else if (valor.darGravedad() == 2)
+		{
+			severidad2.addLast(valor);
+		}
+		else
+		{
+			severidad3.addLast(valor);
+		}
+	}
+	String respuesta = "La cantidad de accidentes en ese rango horario es de: " + totalAccidentes + " \n El porcentaje de accidentes entre ese rango: " + porcentaje + " \n Accidentes con gravedad 0 fueron: " + severidad0.size() + "\n" +severidad0.toString() + " \n Accidentes con gravedad 1 fueron: " + severidad1.size() + "\n" +severidad1.toString() + " \n Accidentes con gravedad 2 fueron: " + severidad2.size() + "\n" + severidad2.toString() + "\n Accidentes con gravedad 3 fueron: " + severidad3.size() + "\n" + severidad3.toString();
+	return respuesta;
+}
+
 }

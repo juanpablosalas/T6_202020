@@ -352,7 +352,7 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 		return respuesta;
 	}
 	
-	public Lista<V> valuesInRange(K kInit, K kFin){
+	public ArregloDinamico<V> valuesInRange(K kInit, K kFin){
 		ArregloDinamico<V> valueSet = new ArregloDinamico<V>();
 		if(left!=null && left.key().compareTo(kInit)>0 && left.key().compareTo(kFin)<0) {
 			ArregloDinamico<V> valueSetleft = (ArregloDinamico<V>) left.valuesInRange(kInit, kFin);
