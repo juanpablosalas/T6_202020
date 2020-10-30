@@ -205,12 +205,12 @@ public class ManejadorAccidente
 		return "El total de accidentes ocurridos antes de la fecha dada es: " + totalAccidentes + " \n La fecha con más accidentes es: " + fechaMasAccidentes + "\n";
 	}
 	
-	public String req3(Date pFechaInicio, Date pFechaFinal) {
-		ArregloDinamico<Accidente> accidentes = (ArregloDinamico<Accidente>) RBTAccidentes.valuesInRange(pFechaInicio, pFechaFinal);
+	public String req3(Date dato, Date dato6) {
+		ArregloDinamico<Accidente> accidentes = (ArregloDinamico<Accidente>) RBTAccidentes.valuesInRange(dato, dato6);
 
 		int totalAccidentes = accidentes.size();
 		
-		return "En el rango de: " + pFechaInicio + " - " + pFechaFinal + " hubieron un total de " + totalAccidentes;
+		return "En el rango de: " + dato + " - " + dato6 + " hubieron un total de " + totalAccidentes;
 		}
 	
 	
