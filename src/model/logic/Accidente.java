@@ -76,6 +76,10 @@ public class Accidente implements Comparable<Accidente>
 	public double darLatitud() {
 		return latitud;
 	}
+	
+	public String darEstado() {
+		return estado;
+	}
 	@Override
 	public int compareTo(Accidente o) {
 		int comp = 1;

@@ -36,6 +36,7 @@ public class Controller {
 		double dato3 = 0;
 		double dato4 = 0;
 		double dato5 = 0;
+		String dato6 = "";
 		String respuesta = "";
 		String respuesta2 = "";
 
@@ -100,7 +101,25 @@ public class Controller {
 				}
 				break;
 				
-			case 3: //Requerimiento 6
+			case 3: //Requerimiento 3
+				if(datosCargados) {
+					view.printMessage("------------------- \n Ingrese la fecha de inicio: \n-------------------");
+					dato = lector.next();
+					Date datoIn = new SimpleDateFormat("yyyy-MM-dd").parse(dato);
+
+					view.printMessage("------------------- \n Ingrese la ultima fecha: \n-------------------");
+					dato6 = lector.nextLine();
+					Date datoFin = new SimpleDateFormat("yyyy-MM-dd").parse(dato6);
+					
+					respuesta = modelo.req3(datoIn, datoFin);
+				}
+				else
+				{
+					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
+				}
+				break;
+				
+			case 4: //Requerimiento 6
 				if(datosCargados) {
 					view.printMessage("------------------- \n Ingrese la longitud: \n-------------------");
 					lector.nextLine();
@@ -117,11 +136,11 @@ public class Controller {
 				} else {
 					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
 				}
-			
-
-			case 4:
+				break;
 
 			case 5:
+
+			case 6:
 				if (datosCargados)
 				{
 					view.printMessage("------------------- \n Ingrese la hora (formato: hh-mm-ss): \n-------------------");
@@ -144,7 +163,7 @@ public class Controller {
 				}
 				break;
 				
-			case 6:
+			case 7:
 
 				view.printMessage("------------------- \n ¡Hasta pronto! \n-------------------");
 				fin = true;
