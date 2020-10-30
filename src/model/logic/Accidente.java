@@ -1,10 +1,9 @@
 package model.logic;
 
-import java.util.Calendar;
 import java.util.Date;
 
-public class Accidente implements Comparable<Accidente>
-{
+public class Accidente implements Comparable<Accidente> {
+
 	private Date fechaInicio;
 
 	private Date fechaFinal;
@@ -16,13 +15,13 @@ public class Accidente implements Comparable<Accidente>
 	private Date horaInicio;
 
 	private Date horaFinal;
-	
+
 	private String id;
-	
+
 	private Double latitud;
-	
+
 	private Double longitud;
-	
+
 	private String estado;
 
 	public Accidente (String pId, Date pFechaInicio, Date pFechaFinal, String pCounty, int pGravedad, Date pHoraInicial, Date pHoraFinal, Double pLatitud, Double pLongitud, String pEstado)
@@ -36,7 +35,7 @@ public class Accidente implements Comparable<Accidente>
 		horaFinal = pHoraFinal;
 		latitud = pLatitud;
 		longitud = pLongitud;
-		estado = pEstado;
+		estado = abbrvToState(pEstado);
 	}
 
 	public Date darFechaInicio()
@@ -72,24 +71,16 @@ public class Accidente implements Comparable<Accidente>
 	public double darLongitud() {
 		return longitud;
 	}
-	
+
 	public double darLatitud() {
 		return latitud;
 	}
-	
+
 	public String darEstado() {
 		return estado;
 	}
-	@Override
-	public int compareTo(Accidente o) {
-		int comp = 1;
-		if(gravedad==o.darGravedad()) {
-			comp = 0;
-		}else if(gravedad<o.darGravedad()) {
-			comp = -1;
-		}
-		return comp;
-	}
+
+
 
 	@SuppressWarnings("deprecation")
 	public void cambiarMinutos()
@@ -104,7 +95,7 @@ public class Accidente implements Comparable<Accidente>
 		}
 
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public void cambiarSegundos()
 	{
@@ -117,13 +108,37 @@ public class Accidente implements Comparable<Accidente>
 			horaInicio.setSeconds(30);
 		}
 	}
-	
-	
-	
+
+
+	public String abbrvToState(String abbr) {
+		String state = "";
+
+		String [] abbrv = "AL	AK	AZ	AR	CA	CO	CT	DE	DC	FL	GA	HI	ID	IL	IN	IA	KS	KY	LA	ME	MD	MA	MI	MN	MS	MO	MT	NE	NV	NH	NJ	NM	NY	NC	ND	OH	OK	OR	PA	RI	SC	SD	TN	TX	UT	VT	VA	WA	WV	WI	WY	PR".split("	");
+		String [] estados = "Alabama	Alaska	Arizona	Arkansas	California	Colorado	Connecticut	Delaware	District of Columbia	Florida	Georgia	Hawaii	Idaho	Illinois	Indiana	Iowa	Kansas	Kentucky	Louisiana	Maine	Maryland	Massachusetts	Michigan	Minnesota	Mississippi	Missouri	Montana	Nebraska	Nevada	New Hampshire	New Jersey	New Mexico	New York	North Carolina	North Dakota	Ohio	Oklahoma	Oregon	Pennsylvania	Rhode Island	South Carolina	South Dakota	Tennessee	Texas	Utah	Vermont	Virginia	Washington	West Virginia	Wisconsin	Wyoming	Puerto Rico".split("	");
+
+		for(int i=0; i<abbrv.length && state.equals("");i++) {
+			if(abbr.equals(abbrv[i])) {
+				state = estados[i];
+			}
+		}
+
+		return state;
+	}
+
+
 	@Override
 	public String toString() {
-		return "ID: "+id+" Gravedad: "+gravedad;
+		return "ID: "+id+" Gravedad: "+gravedad+" Fecha: "+ManejadorAccidente.FORMATO_FECHA.format(fechaInicio);
 	}
+
+	@Override
+	public int compareTo(Accidente o) {
+		Integer g1 = gravedad;
+		Integer g2 = o.darGravedad();
+		return g1.compareTo(g2);
+	}
+
+
 
 
 }

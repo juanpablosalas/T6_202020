@@ -1,7 +1,5 @@
 package model.data_structures;
 
-import java.util.Iterator;
-
 /**
  * 2019-01-23
  * Estructura de Datos Arreglo Dinamico de Strings.
@@ -240,7 +238,11 @@ public class ArregloDinamico<T extends Comparable <T>> implements IArregloDinami
 	}
 
 	public T[] toArray() {
-		return elementos;
+		T[] arreglo = (T[]) new Comparable[tamanoAct];
+		for(int i=0; i<tamanoAct;i++) {
+			arreglo[i]=elementos[i];
+		}
+ 		return arreglo;
 	}
 
 

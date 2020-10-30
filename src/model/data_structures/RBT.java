@@ -135,6 +135,14 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements Ta
 		return root.valuesInRange(init,end);
 	}
 	
+	public int valuesSize() {
+		int valueSize = 0;
+		if(root!=null) {
+			valueSize = root.valuesSize();
+		}
+		return valueSize;
+	}
+	
 	public String toString() {
 		if(root==null) {
 			return " ";

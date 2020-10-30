@@ -225,17 +225,13 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 		}
 
 		if (esRojo(pNodo.right()) && !esRojo(pNodo.left())) {
-			System.out.println(pNodo.toString(0));
-			System.out.println(pNodo.key()+"ROTA IZQ");
+			
 			pNodo = rotateLeft(pNodo);
-			System.out.println(pNodo.toString(0));
 		}
 		if (esRojo(pNodo.left())  &&  esRojo(pNodo.left().left())) {
-			System.out.println("ROTA DER");
 			pNodo = rotateRight(pNodo);
 		}
 		if (esRojo(pNodo.left())  &&  esRojo(pNodo.right()))    {
-			System.out.println("FLIP COLS");
 			flipColors(pNodo);
 		}
 		pNodo.setSize(size(pNodo.left()) + size(pNodo.right()) + 1);
@@ -344,26 +340,28 @@ public class nodoRBT<K extends Comparable <K>, V extends Comparable <V>>
 	
 	public ArregloDinamico<V> valuesInRange(K kInit, K kFin){
 		ArregloDinamico<V> valueSet = new ArregloDinamico<V>();
-		if(left!=null && left.key().compareTo(kInit)>0 && left.key().compareTo(kFin)<0) {
-			ArregloDinamico<V> valueSetleft = (ArregloDinamico<V>) left.valuesInRange(kInit, kFin);
-			for(int i=1; i<valueSetleft.size()+1; i++) {
-				valueSet.addLast(valueSetleft.getElement(i));
-			}
-		}
-		if(key.compareTo(kInit)>0 && key.compareTo(kFin)<0) {
-			for(int i=1; i<=values.size(); i++) {
-				valueSet.addLast(values.getElement(i));
-			}
-		}
-
-		if(right!=null && left.key().compareTo(kInit)>0 && left.key().compareTo(kFin)<0 ) {
-			ArregloDinamico<V> valueSetright = (ArregloDinamico<V>) right.valuesInRange(kInit,kFin);
-			for(int i=1; i<valueSetright.size()+1; i++) {
-				valueSet.addLast(valueSetright.getElement(i));
+		
+		ArregloDinamico<K> llaves = keysInRange(kInit, kFin);
+		for(int i=1; i<llaves.size()+1;i++) {
+			ArregloDinamico<V> valoresLlave = get(this, llaves.getElement(i));
+			for(int j=1; j<valoresLlave.size()+1;j++) {
+				valueSet.addLast(valoresLlave.getElement(j));
 			}
 		}
 		return valueSet;
 
+	}
+	
+	public int valuesSize() {
+		int valueSize = values.size();
+		if(left!=null) {
+			valueSize+=left.valuesSize();
+		}
+		if(right!=null) {
+			valueSize+=right.valuesSize();
+		}
+		
+		return valueSize;
 	}
 	
 	public String toString(int start) {

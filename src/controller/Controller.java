@@ -68,7 +68,7 @@ public class Controller {
 					dato = lector.next();
 					Date dato2 = new SimpleDateFormat("yyyy-MM-dd").parse(dato);
 					try {
-						respuesta = modelo.buscarAccidenteBST(dato) + modelo.buscarAccidenteRBT(dato2);
+						respuesta = modelo.buscarAccidenteRBT(dato2);
 					} catch (Exception e) {
 						respuesta = e.getMessage();			
 						e.printStackTrace();
@@ -78,8 +78,8 @@ public class Controller {
 					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
 				}
 				break;
-				
-			case 2:
+
+			case 2: //Requerimiento 2
 				if (datosCargados)
 				{
 					view.printMessage("------------------- \n Ingrese la fecha (formato: YYYY-MM-DD): \n-------------------");
@@ -101,47 +101,48 @@ public class Controller {
 					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
 				}
 				break;
-				
+
 			case 3: //Requerimiento 3
 				if(datosCargados) {
-					view.printMessage("------------------- \n Ingrese la fecha de inicio: \n-------------------");
+					view.printMessage("------------------- \n Ingrese la fecha de inicio (YYYY-MM-DD): \n-------------------");
 					dato = lector.next();
 					Date datoIn = new SimpleDateFormat("yyyy-MM-dd").parse(dato);
 
-					view.printMessage("------------------- \n Ingrese la ultima fecha: \n-------------------");
-					dato6 = lector.nextLine();
+					view.printMessage("------------------- \n Ingrese la fecha de fin (YYYY-MM-DD): \n-------------------");
+					dato6 = lector.next();
+
 					Date datoFin = new SimpleDateFormat("yyyy-MM-dd").parse(dato6);
-					
+
 					respuesta = modelo.req3(datoIn, datoFin);
+					view.printMessage(respuesta);
 				}
 				else
 				{
 					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
 				}
 				break;
-				
-			case 4: //Requerimiento 6
+			case 4: //Requerimiento 4
 				if(datosCargados) {
-					view.printMessage("------------------- \n Ingrese la longitud: \n-------------------");
-					lector.nextLine();
-					dato3 = lector.nextInt();
+					view.printMessage("------------------- \n Ingrese la fecha de inicio (YYYY-MM-DD): \n-------------------");
+					dato = lector.next();
+					Date datoIn = new SimpleDateFormat("yyyy-MM-dd").parse(dato);
 
-					view.printMessage("------------------- \n Ingrese la latitud: \n-------------------");
-					dato4 = lector.nextInt();
-					
-					view.printMessage("------------------- \n Ingrese el radio: \n-------------------");
-					dato5 = lector.nextInt();
-					
-					respuesta = modelo.req6(dato3, dato4, dato5);
+					view.printMessage("------------------- \n Ingrese la fecha de fin (YYYY-MM-DD): \n-------------------");
+					dato6 = lector.next();
+
+					Date datoFin = new SimpleDateFormat("yyyy-MM-dd").parse(dato6);
+
+					respuesta = modelo.req4(datoIn, datoFin);
 					view.printMessage(respuesta);
-				} else {
+				}
+				else
+				{
 					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
 				}
+				
+				
 				break;
-
-			case 5:
-
-			case 6:
+			case 5: //Requerimiento 5
 				if (datosCargados)
 				{
 					view.printMessage("------------------- \n Ingrese la hora (formato: hh-mm-ss): \n-------------------");
@@ -162,7 +163,27 @@ public class Controller {
 					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
 				}
 				break;
-				
+
+
+			case 6: //Requerimiento 6
+				if(datosCargados) {
+					view.printMessage("------------------- \n Ingrese la longitud: \n-------------------");
+					lector.nextLine();
+					dato3 = lector.nextInt();
+
+					view.printMessage("------------------- \n Ingrese la latitud: \n-------------------");
+					dato4 = lector.nextInt();
+
+					view.printMessage("------------------- \n Ingrese el radio: \n-------------------");
+					dato5 = lector.nextInt();
+
+					respuesta = modelo.req6(dato3, dato4, dato5);
+					view.printMessage(respuesta);
+				} else {
+					view.printMessage("------------------- \n Debe cargar los datos primero \n-------------------");
+				}
+				break;
+
 			case 7:
 
 				view.printMessage("------------------- \n ¡Hasta pronto! \n-------------------");
@@ -177,5 +198,5 @@ public class Controller {
 
 	}
 
-	
+
 }

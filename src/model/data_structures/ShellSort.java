@@ -24,7 +24,6 @@ public class ShellSort {
 					a[j-k] = p;
 				}
 			}
-			System.out.println("h = "+k+"->"+arrayToString(a));
 		}
 	}
 	
