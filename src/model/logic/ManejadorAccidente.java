@@ -3,6 +3,7 @@ package model.logic;
 import java.io.FileReader;
 import java.util.Calendar;
 import java.util.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -264,34 +265,43 @@ public class ManejadorAccidente
 	    cal.setTime(date);
 	    return cal.get(Calendar.DAY_OF_WEEK);
 	}
+	
+	public Calendar convert(Date source) 
+	{
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(source);
+	    return calendar;
+	}
 
 
 @SuppressWarnings("deprecation")
-public String req5(Date pHora) throws ParseException
+public String req5(String pHora) throws ParseException
 {
-	if (pHora.getMinutes() >= 0 && pHora.getMinutes() <= 29)
+	DateFormat formatter = new SimpleDateFormat("hh:mm:ss");
+	Date calendar = (Date)formatter.parse(pHora);
+	if (calendar.getMinutes() >= 0 && calendar.getMinutes() <= 29)
 	{
-		pHora.setMinutes(00);
+		calendar.setMinutes(00);
 	}
 	else 
 	{
-		pHora.setMinutes(30);
+		calendar.setMinutes(30);;
 	}
 	
-	if (pHora.getSeconds() >= 0 && pHora.getSeconds() <=29)
+	if (calendar.getSeconds() >= 0 && calendar.getSeconds() <=29)
 	{
-		pHora.setSeconds(00);
+		calendar.setSeconds(0);
 	}
 	else 
 	{
-		pHora.setSeconds(30);
+		calendar.setSeconds(30);
 	}
 	String date = "00:00:00";
 	String date2 = "23:59:59";
 	Date horaFinal = new SimpleDateFormat("hh:mm:ss").parse(date2);
 	Date init = new SimpleDateFormat("hh:mm:ss").parse(date);
 	ArregloDinamico<Accidente> todosLosAccidentes = RBTHorario.valuesInRange(init, horaFinal);
-	ArregloDinamico<Accidente> valuesHora = RBTHorario.valuesInRange(init, pHora);
+	ArregloDinamico<Accidente> valuesHora = RBTHorario.valuesInRange(init, calendar);
 	ArregloDinamico<Accidente> severidad0 = new ArregloDinamico<Accidente>();
 	ArregloDinamico<Accidente> severidad1 = new ArregloDinamico<Accidente>();
 	ArregloDinamico<Accidente> severidad2 = new ArregloDinamico<Accidente>();
@@ -321,7 +331,7 @@ public String req5(Date pHora) throws ParseException
 			severidad3.addLast(valor);
 		}
 	}
-	String respuesta = "La cantidad de accidentes en ese rango horario es de: " + totalAccidentes + " \n El porcentaje de accidentes entre ese rango: " + porcentaje + " \n Accidentes con gravedad 0 fueron: " + severidad0.size() + "\n" +severidad0.toString() + " \n Accidentes con gravedad 1 fueron: " + severidad1.size() + "\n" +severidad1.toString() + " \n Accidentes con gravedad 2 fueron: " + severidad2.size() + "\n" + severidad2.toString() + "\n Accidentes con gravedad 3 fueron: " + severidad3.size() + "\n" + severidad3.toString();
+	String respuesta = "La cantidad de accidentes en ese rango horario es de: " + totalAccidentes + " \n El porcentaje de accidentes entre ese rango: " + porcentaje + "%" + " \n Accidentes con gravedad 0 fueron: " + severidad0.size() + " \n Accidentes con gravedad 1 fueron: " + severidad1.size() + " \n Accidentes con gravedad 2 fueron: " + severidad2.size() + "\n" + "\n Accidentes con gravedad 3 fueron: " + severidad3.size();
 	return respuesta;
 }
 

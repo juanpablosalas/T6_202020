@@ -2,6 +2,7 @@ package controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -126,10 +127,9 @@ public class Controller {
 				{
 					view.printMessage("------------------- \n Ingrese la hora (formato: hh-mm-ss): \n-------------------");
 					dato = lector.next();
-					Date dato2 = new SimpleDateFormat("hh-mm-ss").parse(dato);
 					try
 					{
-						respuesta = modelo.req5(dato2);
+						respuesta = modelo.req5(dato);
 					}
 					catch (Exception e)
 					{
@@ -156,5 +156,7 @@ public class Controller {
 			}
 		}
 
-	}	
+	}
+
+	
 }

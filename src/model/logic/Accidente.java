@@ -96,8 +96,9 @@ public class Accidente implements Comparable<Accidente>
 		}
 		else 
 		{
-			horaInicio.setMinutes(30);
+			horaInicio.setMinutes(30);;
 		}
+
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -105,13 +106,15 @@ public class Accidente implements Comparable<Accidente>
 	{
 		if (horaInicio.getSeconds() >= 0 && horaInicio.getSeconds() <=29)
 		{
-			horaInicio.setSeconds(00);
+			horaInicio.setSeconds(0);
 		}
 		else 
 		{
 			horaInicio.setSeconds(30);
 		}
 	}
+	
+	
 	
 	@Override
 	public String toString() {
