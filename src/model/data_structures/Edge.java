@@ -1,6 +1,6 @@
 package model.data_structures;
 
-public class Edge<K extends Comparable<K>, V> implements Comparable<Edge<K,V>>{
+public class Edge<K extends Comparable<K>, V extends Comparable<V>> implements Comparable<Edge<K,V>>{
 
 
 	private Vertex<K,V> source;
@@ -15,8 +15,9 @@ vértice dest con peso weight
 	 * @param source
 	 * @param dest
 	 * @param weight
+	 * @throws Exception 
 	 */
-	public Edge(Vertex<K,V> source, Vertex<K,V> dest, double weight) {
+	public Edge(Vertex<K,V> source, Vertex<K,V> dest, double weight) throws Exception {
 		this.source = source;
 		this.dest = dest;
 		this.weight = weight;
@@ -62,6 +63,10 @@ vértice dest con peso weight
 			return -1;
 		}
 		return 0;
+	}
+	
+	public String toString() {
+		return "Source: "+source.toString()+" - Destiny: "+dest.toString()+" - Peso: "+weight;
 	}
 
 }

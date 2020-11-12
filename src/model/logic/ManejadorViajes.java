@@ -11,25 +11,26 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
 import model.data_structures.DiGraph;
+import model.data_structures.VertexExistsException;
 
 public class ManejadorViajes 
 {
-	public static final String DATOS_VIAJES = "2013-07 - Citi Bike trip data.csv";
+	public static final String DATOS_VIAJES = "./data/2013-07 - Citi Bike trip data.csv"; //https://s3.amazonaws.com/tripdata/201307-citibike-tripdata.zip
 
 	public static final SimpleDateFormat FORMATO_FECHA = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static final SimpleDateFormat FORMATO_HORA = new SimpleDateFormat("HH:mm");
 
 
-	private DiGraph<Double,Estacion> grafoViajes;
+	private DiGraph<Integer,Estacion> grafoViajes;
 
 
 	public ManejadorViajes()
 	{
-		grafoViajes = new DiGraph<Double, Estacion>();
+		grafoViajes = new DiGraph<Integer, Estacion>();
 	}
 
-	
+
 	/**
 	 * Lee el archivo de datos y añade los viajes al grafo
 	 * @return
@@ -56,22 +57,36 @@ public class ManejadorViajes
 				String nombreEstacionLlegada = campos[8];
 				double latitudLlegada = Double.parseDouble(campos[9]);
 				double longitudLlegada = Double.parseDouble(campos[10]);
-				Estacion nueva = new Estacion(nombreEstacion, idEstacion, longitudInicial, latitudInicial, tiempo);
-				Estacion llegada = new Estacion(nombreEstacionLlegada, idEstacionLlegada, longitudLlegada, latitudLlegada, tiempo);
-				grafoViajes.insertVertex(tiempo, nueva);
+				Estacion nueva = new Estacion(nombreEstacion, idEstacion, longitudInicial, latitudInicial);
+				Estacion llegada = new Estacion(nombreEstacionLlegada, idEstacionLlegada, longitudLlegada, latitudLlegada);
+		
+				try {
+					grafoViajes.insertVertex(idEstacion, nueva);
+				}catch (VertexExistsException e) {
+
+				}
+
+				try {
+					grafoViajes.insertVertex(idEstacionLlegada, llegada);
+				}catch (VertexExistsException e) {
+
+				}
+
+				grafoViajes.addEdge(idEstacion, idEstacionLlegada, tiempo);
+
 				cantidad++;
 			}
 		}
 		catch (Exception e)
 		{
-			e.getMessage();
+			e.printStackTrace();
 		}
-		
+
 		String info = "";
 		info += "Número total de viajes leidos: "+ cantidad + "\n";
 		info += "Número total de estaciones: "+ grafoViajes.numVertices() +"\n";
 		info += "Número total de arcos: "+ grafoViajes.numEdges() + "\n";
-		
+
 		return info;
 	}
 

@@ -1,14 +1,16 @@
 package model.data_structures;
 
-public class Vertex<K extends Comparable<K>, V> implements Comparable<Vertex<K,V>> {
+public class Vertex<K extends Comparable<K>, V extends Comparable<V>> implements Comparable<Vertex<K,V>> {
 
 	private K id;
 
 	private V value;
 
 	private boolean mark;
-
-	private ArregloDinamico<Edge<K,V>> arcos;
+	
+	private int indegree;
+	
+	private ArregloDinamico<Edge<K,V>> arcosSalientes;
 
 
 	/**
@@ -22,7 +24,7 @@ inicia desmarcado
 		this.id = id;
 		this.value = value;
 		this.mark = false;
-		arcos = new ArregloDinamico<Edge<K,V>>(); 
+		arcosSalientes = new ArregloDinamico<Edge<K,V>>(); 
 	}
 
 	/**
@@ -50,10 +52,10 @@ inicia desmarcado
 	}
 
 	/**
-	 * Agrega un arco adyacente al vértice
+	 * Agrega un arco adyacente saliente al vértice
 	 */
 	public void addEdge( Edge<K,V> edge ) {
-		arcos.addLast(edge);
+		arcosSalientes.addLast(edge);
 
 	}
 	/**
@@ -75,13 +77,7 @@ inicia desmarcado
 	 * @return
 	 */
 	public int outdegree() {
-		int outdegree = 0;
-		for(int i=1; i<=arcos.size(); i++) {
-			if(arcos.getElement(i).getSource().equals(this)) {
-				outdegree++;
-			}
-		}
-		return outdegree;
+		return arcosSalientes.size();
 	}
 
 	/**
@@ -89,13 +85,11 @@ inicia desmarcado
 	 * @return
 	 */
 	public int indegree() {
-		int indegree = 0;
-		for(int i=1; i<=arcos.size(); i++) {
-			if(arcos.getElement(i).getDest().equals(this)) {
-				indegree++;
-			}
-		}
 		return indegree;
+	}
+	
+	public void increaseIndegree() {
+		indegree++;
 	}
 
 	/**
@@ -105,9 +99,9 @@ inicia desmarcado
 	 */
 	public Edge<K,V> getEdge(K vertex){
 		Edge<K,V> arcoBuscado = null;
-		for(int i=1; i<=arcos.size() && arcoBuscado == null; i++) {
-			if(arcos.getElement(i).getDest().getId().equals(vertex) || arcos.getElement(i).getSource().getId().equals(vertex) ) {
-				arcoBuscado = arcos.getElement(i);
+		for(int i=1; i<=arcosSalientes.size() && arcoBuscado == null; i++) {
+			if(arcosSalientes.getElement(i).getDest().getId().equals(vertex)) {
+				arcoBuscado = arcosSalientes.getElement(i);
 			}
 		}
 		return arcoBuscado;
@@ -120,11 +114,8 @@ adyacentes (salientes)
 	 */
 	public Lista<Vertex<K,V>> vertices(){
 		ArregloDinamico<Vertex<K,V>> vertices = new ArregloDinamico<Vertex<K,V>>();
-		for(int i=1; i<=arcos.size(); i++) {
-			Edge<K,V> arcoi = arcos.getElement(i);
-			if(arcoi.getSource().equals(this)) {
-				vertices.addLast(arcoi.getDest());
-			}
+		for(int i=1; i<=arcosSalientes.size(); i++) {
+				vertices.addLast(arcosSalientes.getElement(i).getDest());
 		}
 		return vertices;
 	}
@@ -135,19 +126,16 @@ adyacentes (salientes)
 	 * @return
 	 */
 	public Lista<Edge<K,V>> edges(){
-		ArregloDinamico<Edge<K,V>> edges = new ArregloDinamico<Edge<K,V>>();
-		for(int i=1; i<=arcos.size(); i++) {
-			Edge<K,V> arcoi = arcos.getElement(i);
-			if(arcoi.getSource().equals(this)) {
-				edges.addLast(arcoi);
-			}
-		}
-		return edges;
+		return arcosSalientes;
 	}
 
 	@Override
 	public int compareTo(Vertex<K, V> o) {
-		return id.compareTo(o.getId());
+		return value.compareTo(o.getValue());
 	}
 
+	public String toString() {
+		return "("+id.toString()+","+value.toString()+")";
+	}
+	
 }

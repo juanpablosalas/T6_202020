@@ -1,6 +1,6 @@
 package model.data_structures;
 
-public class DiGraph<K extends Comparable<K>,V> {
+public class DiGraph<K extends Comparable<K>,V extends Comparable<V>> {
 
 
 	int max = 1000;
@@ -56,13 +56,13 @@ identificador y valor
 	 * @param id
 	 * @param value
 	 */
-	public void insertVertex(K id, V value) throws Exception {
+	public void insertVertex(K id, V value) throws VertexExistsException {
 		Vertex<K,V> nuevo = new Vertex<K, V>(id, value);
-		if(adj.isPresent(nuevo)==-1) {
+		if(!containsVertex(id)) {
 			adj.addLast(nuevo);
 			numVertices ++;
 		}else {
-			throw new Exception("El vértice ya existe");
+			throw new VertexExistsException(id.toString());
 		}
 	}
 
@@ -90,21 +90,16 @@ arco YA existe se modifica su peso.
 		// Revisa si ya hay un arco que vaya entre fuente y destino, en cuyo caso cambia su peso
 		// De lo contrario, agrega el arco nuevo.
 
-
 		if(fuente.getEdge(dest)!=null) {
 			fuente.getEdge(dest).setWeight(weight);
 		}else {
-			fuente.addEdge(arcoNuevo);
+			fuente.addEdge(arcoNuevo);	
+			numEdges++;
 		}
+		
+		destino.increaseIndegree();
 
 
-		if(destino.getEdge(source)!=null) {
-			destino.getEdge(source).setWeight(weight);
-		}else {
-			destino.addEdge(arcoNuevo);
-		}
-
-		numEdges++;
 
 	}
 
@@ -133,6 +128,9 @@ identificador único
 	 */
 	public Edge<K,V> getEdge(K idS, K idD){
 		Vertex<K,V> vertice = getVertex(idS);
+		if(vertice==null) {
+			return null;
+		}
 		return vertice.getEdge(idD);
 	}
 
@@ -195,9 +193,7 @@ grafo
 		for(int i=1; i<=adj.size(); i++) {
 			Lista<Edge<K,V>> edgesi = adj.getElement(i).edges();
 			for(int j=1; j<=edgesi.size();j++) {
-				if(edges.isPresent(edgesi.getElement(j))==-1) {
-					edges.addLast(edgesi.getElement(j));
-				}
+				edges.addLast(edgesi.getElement(j));
 			}
 		}
 		return edges;
@@ -210,8 +206,6 @@ grafo
 	public Lista<Vertex<K,V>> vertices(){
 		return adj;
 	}
-
-
 
 
 
