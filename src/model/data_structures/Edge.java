@@ -1,14 +1,14 @@
 package model.data_structures;
 
 public class Edge<K extends Comparable<K>, V> implements Comparable<Edge<K,V>>{
-	
-	
+
+
 	private Vertex<K,V> source;
-	
+
 	private Vertex<K,V> dest;
-	
+
 	private double weight;
-	
+
 	/**
 	 * Crea el arco desde el vértice source al
 vértice dest con peso weight
@@ -21,7 +21,7 @@ vértice dest con peso weight
 		this.dest = dest;
 		this.weight = weight;
 	}
-	
+
 	/**
 	 * Devuelve el vértice origen
 	 * @return
@@ -29,7 +29,7 @@ vértice dest con peso weight
 	public Vertex<K,V> getSource(){
 		return source;
 	}
-	
+
 	/**
 	 * Devuelve el vértice destino
 	 * @return
@@ -37,7 +37,7 @@ vértice dest con peso weight
 	public Vertex<K,V> getDest(){
 		return dest;
 	}
-	
+
 	/**
 	 * Devuelve el peso del arco
 	 * @return
@@ -45,7 +45,7 @@ vértice dest con peso weight
 	public double weight() {
 		return weight;
 	}
-	
+
 	/**
 	 * Modifica el peso del arco
 	 * @param weight
@@ -56,7 +56,11 @@ vértice dest con peso weight
 
 	@Override
 	public int compareTo(Edge<K, V> o) {
-		// TODO Auto-generated method stub
+		if(weight>o.weight()) {
+			return 1;
+		}else if(weight<o.weight()) {
+			return -1;
+		}
 		return 0;
 	}
 
