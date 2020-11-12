@@ -14,25 +14,29 @@ import model.data_structures.DiGraph;
 
 public class ManejadorViajes 
 {
-	public static final String DATOS_VIAJES = "";
+	public static final String DATOS_VIAJES = "201801-1-citibike-tripdata.csv";
 
 	public static final SimpleDateFormat FORMATO_FECHA = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static final SimpleDateFormat FORMATO_HORA = new SimpleDateFormat("HH:mm");
 
 
-	private DiGraph<String,Estacion> grafoViajes;
-
-
+	private DiGraph<Integer,Estacion> grafoViajes;
 
 
 	public ManejadorViajes()
 	{
 
-		grafoViajes = new DiGraph<String, Estacion>();
+		grafoViajes = new DiGraph<Integer, Estacion>();
 	}
 
-	public String leerArchivo(int ano) throws Exception
+	
+	/**
+	 * Lee el archivo de datos y añade los viajes al grafo
+	 * @return
+	 * @throws Exception
+	 */
+	public String leerArchivo( ) throws Exception
 	{
 		String csv = DATOS_VIAJES;
 		CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
@@ -46,10 +50,6 @@ public class ManejadorViajes
 				String fechaHoraInicio = campos[4];
 				String fechaInicio = fechaHoraInicio.split(" ")[0];
 				Date fInicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicio);
-
-
-
-
 			}
 
 		} catch (Exception e) 
@@ -59,10 +59,17 @@ public class ManejadorViajes
 
 		String info = "";
 
-
 		return info;
 	}
 
+	/**
+	 * Para un id de una estación (vértice del grafo) dado por el usuario, debe informarse su grado de entrada y de salida.
+	 * @param idEstacion
+	 * @return
+	 */
+	public String grado(int idEstacion) {
+		return "";
+	}
 
 
 

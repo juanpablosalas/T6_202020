@@ -56,11 +56,14 @@ identificador y valor
 	 * @param id
 	 * @param value
 	 */
-	public void insertVertex(K id, V value) {
+	public void insertVertex(K id, V value) throws Exception {
 		Vertex<K,V> nuevo = new Vertex<K, V>(id, value);
-		adj.addLast(nuevo);
-		numVertices ++;
-
+		if(adj.isPresent(nuevo)==-1) {
+			adj.addLast(nuevo);
+			numVertices ++;
+		}else {
+			throw new Exception("El vértice ya existe");
+		}
 	}
 
 	/**
