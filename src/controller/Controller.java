@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
-import model.logic.ManejadorAccidente;
+import model.logic.ManejadorViajes;
 import view.View;
 
 public class Controller {
@@ -15,7 +15,7 @@ public class Controller {
 	private View view;
 
 	/* Instancia del Model*/
-	private ManejadorAccidente modelo;
+	private ManejadorViajes modelo;
 
 	/**
 	 * Crear la vista y el modelo del proyecto
@@ -24,7 +24,7 @@ public class Controller {
 	public Controller ()
 	{
 		view = new View();
-		modelo = new ManejadorAccidente();
+		modelo = new ManejadorViajes();
 
 	}
 
