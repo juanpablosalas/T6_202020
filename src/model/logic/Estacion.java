@@ -9,15 +9,18 @@ public class Estacion implements Comparable<Estacion> {
 	private double longitud;
 
 	private double latitud;
+	
+	private double tiempoViaje;
 
 
 
-	public Estacion (String stationName, int stationID, double longitud, double latitud)
+	public Estacion (String stationName, int stationID, double longitud, double latitud, double tiempoViaje)
 	{
 		this.stationName = stationName;
 		this.stationID = stationID;
 		this.longitud = longitud;
 		this.latitud = latitud;
+		this.tiempoViaje = tiempoViaje;
 	}
 
 
@@ -35,6 +38,11 @@ public class Estacion implements Comparable<Estacion> {
 
 	public double darLatitud() {
 		return latitud;
+	}
+	
+	public double darTiempoViaje()
+	{
+		return tiempoViaje;
 	}
 
 	@Override

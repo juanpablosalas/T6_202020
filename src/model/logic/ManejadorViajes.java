@@ -14,20 +14,19 @@ import model.data_structures.DiGraph;
 
 public class ManejadorViajes 
 {
-	public static final String DATOS_VIAJES = "201801-1-citibike-tripdata.csv";
+	public static final String DATOS_VIAJES = "2013-07 - Citi Bike trip data.csv";
 
 	public static final SimpleDateFormat FORMATO_FECHA = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static final SimpleDateFormat FORMATO_HORA = new SimpleDateFormat("HH:mm");
 
 
-	private DiGraph<Integer,Estacion> grafoViajes;
+	private DiGraph<Double,Estacion> grafoViajes;
 
 
 	public ManejadorViajes()
 	{
-
-		grafoViajes = new DiGraph<Integer, Estacion>();
+		grafoViajes = new DiGraph<Double, Estacion>();
 	}
 
 	
@@ -40,25 +39,39 @@ public class ManejadorViajes
 	{
 		String csv = DATOS_VIAJES;
 		CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
+		int cantidad = 0;
 		try 
 		{
 			CSVReader reader = new CSVReaderBuilder(new FileReader(csv)).withSkipLines(1).withCSVParser(parser).build();
 			String[] campos;
 			while ((campos = reader.readNext()) != null)
 			{
-				String id = campos[0];
-				String fechaHoraInicio = campos[4];
-				String fechaInicio = fechaHoraInicio.split(" ")[0];
-				Date fInicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicio);
+				double x = Double.parseDouble(campos[0]);
+				double tiempo = x/60;
+				double latitudInicial = Double.parseDouble(campos[5]);
+				double longitudInicial = Double.parseDouble(campos[6]);
+				int idEstacion = Integer.parseInt(campos[3]);
+				String nombreEstacion = campos[4];
+				int idEstacionLlegada = Integer.parseInt(campos[7]);
+				String nombreEstacionLlegada = campos[8];
+				double latitudLlegada = Double.parseDouble(campos[9]);
+				double longitudLlegada = Double.parseDouble(campos[10]);
+				Estacion nueva = new Estacion(nombreEstacion, idEstacion, longitudInicial, latitudInicial, tiempo);
+				Estacion llegada = new Estacion(nombreEstacionLlegada, idEstacionLlegada, longitudLlegada, latitudLlegada, tiempo);
+				grafoViajes.insertVertex(tiempo, nueva);
+				cantidad++;
 			}
-
-		} catch (Exception e) 
+		}
+		catch (Exception e)
 		{
-			e.printStackTrace();
-		}	
-
+			e.getMessage();
+		}
+		
 		String info = "";
-
+		info += "Número total de viajes leidos: "+ cantidad + "\n";
+		info += "Número total de estaciones: "+ grafoViajes.numVertices() +"\n";
+		info += "Número total de arcos: "+ grafoViajes.numEdges() + "\n";
+		
 		return info;
 	}
 
