@@ -11,6 +11,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
 import model.data_structures.DiGraph;
+import model.data_structures.Vertex;
 import model.data_structures.VertexExistsException;
 
 public class ManejadorViajes 
@@ -95,8 +96,13 @@ public class ManejadorViajes
 	 * @param idEstacion
 	 * @return
 	 */
-	public String grado(int idEstacion) {
-		return "";
+	public String grado(int id) {
+		
+		Vertex v = grafoViajes.getVertex(id);
+		int entrada = v.indegree();
+		int salida = v.outdegree();
+		
+		return "El vertice dado tiene un grado de entrada de: " + entrada + " y un grado de salida de: " + salida;
 	}
 
 
@@ -162,7 +168,6 @@ public class ManejadorViajes
 
 		return nueva;
 	}
-
 
 
 }
